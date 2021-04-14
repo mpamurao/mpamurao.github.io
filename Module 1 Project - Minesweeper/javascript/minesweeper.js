@@ -35,7 +35,7 @@ var loadEasyGrid = () => {
         // console.log(grid)
     }
     // place mines, blanks, and numbers
-    setBombs(10);
+    setBombs(81);
     
 }
 
@@ -51,16 +51,17 @@ var setBombs = (bombs) => {
 
     // determine bomb location based on x,y coordinates
 
-    while (bombCounter > 0){
-    let randomRowNum = Math.floor(Math.random() * (gridRow[0] + 1));
-    let randomColumnNum = Math.floor(Math.random() * (gridColumn[0] + 1));
+    while (bombCounter >= 0){
+        // gridRow = 0 to [value] -> add 1 to get make random() to include [value]
+        let bombLocation = Math.floor(Math.random() * (gridRow[0] * gridColumn[0]));
 
-    let bombLocation = randomRowNum * randomColumnNum;
+        console.log(bombLocation);
 
-    gridSquare[bombLocation].innerHTML = '<img src="./images/bomb.png>';
-    console.log(gridSquare);
-
-
+        gridSquare[bombLocation].innerHTML = '<img src="./images/bomb.png" class="images" id="bomb-' + bombLocation + '">';
+        console.log(gridSquare[bombLocation]);
+        
+        bombCounter--;
+        console.log(bombCounter);
     }
 
 
@@ -71,7 +72,7 @@ var setBombs = (bombs) => {
 
 // if it's a mine: 
 // mineCounter - 1
-// set adjacentBombs++ for each adjacent cell
+// set adjacentBombs++ counter for each adjacent cell
 // (rowIndex - 1, rowIndex + 1, columnIndex +)
 
 
