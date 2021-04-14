@@ -23,19 +23,21 @@ var loadEasyGrid = () => {
     mainGrid.style.height = "85%";
     gameHeading.style.height = "15%";
 
-    // // reset grid template to empty. remove existing ".square" divs inside mainGrid
+    // reset grid template to empty. remove existing ".square" divs inside mainGrid
     emptyGrid();
 
     // manipulate grid columns+rows
      mainGrid.style.gridTemplate = "repeat(" + gridRow[0] + ", 1fr) / repeat(" + gridColumn[0] + ", 1fr)";
 
     // add cells inside #main-grid
-    for (let counter = 0; counter < gridRow[0]*gridColumn[0]; counter++){
-        grid.innerHTML += '<div class="square" id="square-' + counter + '"></div>';
-        // console.log(grid)
+    for (let rowCounter = 0; rowCounter < gridRow[0]; rowCounter++){
+        for (let columnCounter = 0; columnCounter < gridColumn[0]; columnCounter++){
+            grid.innerHTML += '<div class="square" id="' + rowCounter + '-' + columnCounter + '"></div>';
+            console.log(grid)
+        }
     }
     // place mines, blanks, and numbers
-    setBombs(81);
+    // setBombs(99);
     
 }
 
@@ -50,18 +52,20 @@ var setBombs = (bombs) => {
     // (Math.random() * (max - min)) + min
 
     // determine bomb location based on x,y coordinates
-
     while (bombCounter >= 0){
-        // gridRow = 0 to [value] -> add 1 to get make random() to include [value]
+
+        // gridRow = 0 to [value]
         let bombLocation = Math.floor(Math.random() * (gridRow[0] * gridColumn[0]));
 
         console.log(bombLocation);
 
-        gridSquare[bombLocation].innerHTML = '<img src="./images/bomb.png" class="images" id="bomb-' + bombLocation + '">';
+        gridSquare[bombLocation].innerHTML = '<img src="./images/bomb.png" class="images" id="bomb-' + gridRow[0] + '-' + gridColumn[0] + '">';
         console.log(gridSquare[bombLocation]);
         
-        bombCounter--;
-        console.log(bombCounter);
+        // if (!document.getElementById("bomb-" + gridRow[0] + "-" + gridColumn[0])){
+        //     bombCounter--;
+        //     console.log(bombCounter);
+        // }
     }
 
 
@@ -120,8 +124,11 @@ var loadMediumGrid = () => {
      mainGrid.style.gridTemplate = "repeat(" + gridRow[1] + ", 1fr) / repeat(" + gridColumn[1] + ", 1fr)";
     
     // add # of grid cells
-    for (let counter = 0; counter < gridRow[1] * gridColumn[1]; counter++){
-        grid.innerHTML += '<div class="square" id="square-' + counter + '"></div>';
+    for (let rowCounter = 0; rowCounter < gridRow[1]; rowCounter++){
+        for (let columnCounter = 0; columnCounter < gridColumn[1]; columnCounter++){
+            grid.innerHTML += '<div class="square" id="' + rowCounter + '-' + columnCounter + '"></div>';
+            console.log(grid)
+        }
     }
 
     // place mines, blanks, and numbers
@@ -146,8 +153,11 @@ var loadHardGrid = () => {
     
     
     // add # of grid cells 24x20
-    for (let counter = 0; counter < gridRow[2] * gridColumn[2]; counter++){
-        grid.innerHTML += '<div class="square" id="square-' + counter + '"></div>';
+    for (let rowCounter = 0; rowCounter < gridRow[2]; rowCounter++){
+        for (let columnCounter = 0; columnCounter < gridColumn[2]; columnCounter++){
+            grid.innerHTML += '<div class="square" id="' + rowCounter + '-' + columnCounter + '"></div>';
+            console.log(grid)
+        }
     }
 
     // place mines, blanks, and numbers
@@ -162,6 +172,6 @@ var emptyGrid = () => {
     removeSquare.forEach((square) =>{
         // .parentNode is parent of current node (here, it's element)
         square.parentNode.removeChild(square);
-    })
+    });
 }
 

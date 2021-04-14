@@ -129,8 +129,8 @@ p#minesweeper{
 }
 
 .square{
-    border:1px solid black;  
-    font-size:1%; 
+    border:1px solid black; 
+    font-size:5%; 
 }
 
 .images {
