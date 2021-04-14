@@ -56,7 +56,7 @@ var setBombs = (bombs) => {
     // (Math.random() * (max - min)) + min
     
     // determine bomb location based on x,y coordinates
-    while (bombCounter >= 0){
+    while (bombCounter > 0){
         
         // gridRow & Column = 0 to [value]. find individual square to set bomb
         let bombLocation = Math.floor(Math.random() * (gridRow[0] * gridColumn[0]));
@@ -67,7 +67,7 @@ var setBombs = (bombs) => {
         console.log(squareBomb);
         console.log(gridSquare[bombLocation])
         
-        if (!squareBomb){
+        if (squareBomb){
             bombCounter++;
             console.log("add " + bombCounter);
         }
