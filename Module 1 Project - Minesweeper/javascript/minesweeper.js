@@ -27,45 +27,55 @@ var loadEasyGrid = () => {
     emptyGrid();
 
     // manipulate grid columns+rows
-     mainGrid.style.gridTemplate = "repeat(" + gridRow[0] + ", 1fr) / repeat(" + gridColumn[0] + ", 1fr)";
+     mainGrid.style.gridTemplate = 
+        "repeat(" + gridRow[0] + ", 1fr) / repeat(" + gridColumn[0] + ", 1fr)";
 
     // add cells inside #main-grid
     for (let rowCounter = 0; rowCounter < gridRow[0]; rowCounter++){
         for (let columnCounter = 0; columnCounter < gridColumn[0]; columnCounter++){
-            grid.innerHTML += '<div class="square" id="' + rowCounter + '-' + columnCounter + '"></div>';
-            console.log(grid)
+            grid.innerHTML += '<div class="square" id="' + 
+                rowCounter + '-' + columnCounter + '"></div>';
+            // console.log(grid)
         }
     }
     // place mines, blanks, and numbers
-    // setBombs(99);
+    setBombs(81);
     
 }
 
 var setBombs = (bombs) => {
     // set number of bombs in mineCounter
     let bombCounter = bombs;
+    console.log("initial " + bombCounter);
     const gridSquare = document.getElementsByClassName("square");
     // gridSquare.style.visibility = "hidden";
-        
+    
+    
     // Math.random() returns number between 0 (inclusive) and 1 (exclusive)
-    // Math.floor() returns integer
+    // Math.floor() returns largest integer <= number
     // (Math.random() * (max - min)) + min
-
+    
     // determine bomb location based on x,y coordinates
     while (bombCounter >= 0){
-
-        // gridRow = 0 to [value]
+        
+        // gridRow & Column = 0 to [value]. find individual square to set bomb
         let bombLocation = Math.floor(Math.random() * (gridRow[0] * gridColumn[0]));
-
         console.log(bombLocation);
 
-        gridSquare[bombLocation].innerHTML = '<img src="./images/bomb.png" class="images" id="bomb-' + gridRow[0] + '-' + gridColumn[0] + '">';
-        console.log(gridSquare[bombLocation]);
+        // check if bomb already exists in that square
+        const squareBomb = document.getElementById('bomb-' + bombLocation);
+        console.log(squareBomb);
+        console.log(gridSquare[bombLocation])
         
-        // if (!document.getElementById("bomb-" + gridRow[0] + "-" + gridColumn[0])){
-        //     bombCounter--;
-        //     console.log(bombCounter);
-        // }
+        if (!squareBomb){
+            bombCounter++;
+            console.log("add " + bombCounter);
+        }
+
+        gridSquare[bombLocation].innerHTML = 
+            '<img src="./images/bomb.png" class="images" id="bomb-' + bombLocation +'">';
+        bombCounter--;
+        console.log("sub " + bombCounter);
     }
 
 
