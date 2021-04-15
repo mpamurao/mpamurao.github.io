@@ -14,6 +14,9 @@ const levels = {
     hard: {x: 16, y: 30}
 }
 
+// create 2x2 array for easier access in JS
+let gridDisplay = [];
+
 // load default easyMode grid
 var loadEasyGrid = () => {
 
@@ -27,9 +30,6 @@ var loadEasyGrid = () => {
     // reset grid template to empty. remove existing ".square" divs inside mainGrid
     emptyGrid();
 
-    // create 2x2 array for easier access in JS
-    const gridDisplay = [];
-
     for (rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
         const gridColumn = [];
 
@@ -41,11 +41,14 @@ var loadEasyGrid = () => {
         gridDisplay.push(gridColumn);
     }
 
+    // place bombs into grid
+    setBomb(10, "easy");
+
     // assign grid style of # x # board
     mainGrid.style.gridTemplate =
         "repeat(" + levels.easy.x + ", 1fr) / repeat(" + levels.easy.y + ", 1fr)";
     
-    // assign gridDisplay into HTML
+    // assign gridDisplay into HTML #main-grid
     for (rowIndex = 0; rowIndex < gridDisplay.length; rowIndex++){
             for (columnIndex = 0; columnIndex < gridDisplay[0].length; columnIndex++){
                 // if blank, add only the .square div
@@ -55,48 +58,53 @@ var loadEasyGrid = () => {
                 }
 
                 // if it's a bomb, add .square div and image of bomb
-                else if (gridDisplay[rowIndex][columnIndex] === "x"){
+                else if (gridDisplay[rowIndex][columnIndex] === "bomb"){
                     mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' + columnIndex + '>'+
-                                            '<img src="./images/bomb.png" class="images bombs" id="bomb">'+
+                                            '<img src="./images/bomb.png" class="images bombs">'+
                                             '</div>';
                 }
             }
         }
 
-    // place mines, blanks, and numbers
-    setBomb(10, "easy");
-    
+    // set default on images to hidden
+    // const gridImages = document.getElementsByClassName("images");
+    // console.log(gridImages);
+    // for (counter = 0; counter < gridImages.length; counter++){
+    //     gridImages[counter].style.visibility = "hidden";
+    // };
 }
 
-var setBomb = (difficulty) => {
+var setBomb = (bombs, difficulty) => {
     // set number of bombs in mineCounter
-    let bombCount = 1;
+    let bombCount = bombs;
     console.log("initial " + bombCount);
 
-    const gridSquare = document.getElementsByClassName("square");
-    gridSquare.style.visibility = "hidden";
-    
-    
-    // Math.random() returns number between 0 (inclusive) and 1 (exclusive)
-    // Math.floor() returns largest integer <= number
-    // (Math.random() * (max - min)) + min
-    
     // determine bomb location based on x,y coordinates
-
+    while (bombCount > 0){
         
         // gridRow & Column = 0 to [value]. find individual square to set bomb
-        let bombLocation = Math.floor(Math.random() * (levels[difficulty].x * levels[difficulty].y));
-
-        // check if bomb already exists in that square
-        const squareBomb = document.getElementById('bomb-' + bombLocation);
+        let rowLength = levels[difficulty].x;
+        let columnLength = levels[difficulty].y;
         
-        if (squareBomb){
+        // Math.random() returns number between 0 (inclusive) and 1 (exclusive)
+        // Math.floor() returns largest integer <= number
+        // (Math.random() * (max - min)) + min
+        let rowBomb = Math.floor(Math.random() * rowLength);
+        let columnBomb = Math.floor(Math.random() * columnLength);
+       
+        console.log(rowBomb, columnBomb);
+        
+        square = gridDisplay[rowBomb][columnBomb];
+        // check if bomb already exists in that square
+        if (square === "bomb"){
             bombCount++;
         }
+        
+        gridDisplay[rowBomb][columnBomb] = "bomb";
+        bombCount--;
+        console.log("count " + bombCount);
 
-        // // add bomb image to square
-        // gridSquare[bombLocation].innerHTML = 
-        //     '<img src="./images/bomb.png" class="images bombs" id="bomb-' + bombLocation +'">';
+    }
 
     setNumbers();
 }
@@ -176,7 +184,7 @@ var loadMediumGrid = () => {
     }
 
     // place mines, blanks, and numbers
-    setBombs(40, "medium");
+    setBomb(40, "medium");
 }
 
 // hardMode
@@ -205,13 +213,16 @@ var loadHardGrid = () => {
  }
 
     // place mines, blanks, and numbers
-    setBombs(99, "hard");
+    setBomb(99, "hard");
     
 }
 
 
 // empty mainGrid so it has no cells
 var emptyGrid = () => {
+    // reset grid to empty
+    gridDisplay = [];
+
     const removeSquare = document.querySelectorAll(".square");
     removeSquare.forEach((square) =>{
         // .parentNode is parent of current node (here, it's element)
