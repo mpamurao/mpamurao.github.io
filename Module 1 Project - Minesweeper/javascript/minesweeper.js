@@ -22,7 +22,7 @@ let gridDisplay = [];
 
 // load default easyMode grid
 var loadEasyGrid = () => {
-
+    const easy = "easy";
     // manipulate shape of game container
     mainContainer.style.width = "40%";
     mainContainer.style.height = "60%";
@@ -61,8 +61,8 @@ var loadEasyGrid = () => {
                     // if it's a bomb, add .square div and image of bomb
                     if (gridDisplay[rowIndex][columnIndex] === "bomb"){
                         mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' +
-                                                columnIndex + '>'+
-                                                '<img src="./images/bomb.png" class="images bombs" onclick="clickBomb("easy")">'+
+                                                columnIndex + ' onclick="clickBomb()">'+
+                                                '<img src="./images/bomb.png" class="images bombs">'+
                                                 '</div>';
                     }
 
@@ -85,6 +85,8 @@ var loadEasyGrid = () => {
             }
         }
 
+        square = document.getElementsByClassName("square");
+        console.log(square)
     // set default on images and numbers to visibility:hidden
     // // hide bombs
     // for (counter = 0; counter < gridBombs.length; counter++){
@@ -139,13 +141,9 @@ var setNumbers = (difficulty) => {
     for (let rowIndex = 0; rowIndex < rowLength; rowIndex++){
         column:
         for (let columnIndex = 0; columnIndex < columnLength; columnIndex++){
-            console.log("initial " + rowIndex + " " + columnIndex + " " +
-                gridDisplay[rowIndex][columnIndex])
 
-            
             // if square is a bomb, move to next square
             if (gridDisplay[rowIndex][columnIndex] === "bomb"){
-                // exit this run, and continue to next columnIndex
                 continue column;
             }
 
@@ -158,61 +156,48 @@ var setNumbers = (difficulty) => {
 
             // below square
             if (!(rowIndex + 1 >= rowLength) && gridDisplay[rowIndex + 1][columnIndex] === "bomb"){
-                console.log("add row " + gridDisplay[rowIndex + 1][columnIndex])
                 counter++;
             }
 
             // count bombs to the left
             if (!(columnIndex - 1 < 0) && gridDisplay[rowIndex][columnIndex - 1] === "bomb"){
-                console.log("minus column " + gridDisplay[rowIndex][columnIndex - 1])
                 counter++;
             }
 
             // right of square
             if (!(columnIndex + 1 >= columnLength) && gridDisplay[rowIndex][columnIndex + 1]
                     === "bomb"){
-                        
-                console.log("add column " + gridDisplay[rowIndex][columnIndex + 1])
                 counter++;
             }
 
             // count bombs in the top left
             if (!(rowIndex - 1 < 0) && !(columnIndex - 1 < 0) && gridDisplay[rowIndex - 1][columnIndex - 1] 
                     === "bomb"){
-
-                console.log("minus row, minus column " + gridDisplay[rowIndex - 1][columnIndex - 1])
                 counter++;
             }
 
             // top right
             if (!(rowIndex - 1 < 0) && !(columnIndex + 1 >= columnLength) && 
                     gridDisplay[rowIndex - 1][columnIndex + 1] === "bomb"){
-
-                console.log("minus row, add column " + gridDisplay[rowIndex - 1][columnIndex + 1])
                 counter++;
             }
 
             // count bombs in bottom left
             if (!(rowIndex + 1 >= rowLength) && !(columnIndex - 1 < 0) && 
                     gridDisplay[rowIndex + 1][columnIndex - 1] === "bomb"){
-
-                console.log("add row, minus column " + gridDisplay[rowIndex + 1][columnIndex - 1])
                 counter++;
             }
 
             // bottom right
             if (!(rowIndex + 1 >= rowLength) && !(columnIndex + 1 >= columnLength) && 
                     gridDisplay[rowIndex + 1][columnIndex + 1] === "bomb"){
-
-                console.log("add row, add column " + gridDisplay[rowIndex + 1][columnIndex + 1])
                 counter++;
             }
 
             if (counter > 0){
                 gridDisplay[rowIndex][columnIndex] = counter;
-                console.log(counter);
+                // console.log(counter);
             }
-            console.log("final " + gridDisplay[rowIndex][columnIndex]);
         }
     }
 
@@ -224,9 +209,9 @@ var setNumbers = (difficulty) => {
 // if it's blank, expose everything until numbers are reached
 // if bomb, game over. change square color to red. expose the entire board.
 
-var clickBomb = (difficulty) => {
-    const rowLength = levels[difficulty].x;
-    const columnLength = levels[difficulty].y;
+var clickBomb = () => {
+    const rowLength = levels.easy.x;
+    const columnLength = levels.easy.y;
 
     const gridSquare = document.querySelectorAll(".square");
     
