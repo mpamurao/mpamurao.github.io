@@ -7,6 +7,9 @@ const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const mainContainer = document.getElementById("main-container");
 
+const gridBombs = document.getElementsByClassName("bombs");
+const gridNumbers = document.getElementsByClassName("numbers");
+
 // grid sizes for easy, medium, hard
 const levels = {
     easy: {x: 9, y:9},
@@ -59,7 +62,7 @@ var loadEasyGrid = () => {
                     if (gridDisplay[rowIndex][columnIndex] === "bomb"){
                         mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' +
                                                 columnIndex + '>'+
-                                                '<img src="./images/bomb.png" class="images bombs">'+
+                                                '<img src="./images/bomb.png" class="images bombs" onclick="clickBomb("easy")">'+
                                                 '</div>';
                     }
 
@@ -74,23 +77,25 @@ var loadEasyGrid = () => {
 
                 }
 
-                 // if blank, add only the .square div
+                 // if blank, add only the .square div and class blank
                  else if (gridDisplay[rowIndex][columnIndex] === " "){
-                    mainGrid.innerHTML += '<div class="square" id=' + 
-                                            rowIndex + '-' + columnIndex + '></div>';
+                    mainGrid.innerHTML += '<div class="square " id=' + 
+                                            rowIndex + '-' + columnIndex + '><div class="blank"></div></div>';
                 }
             }
         }
 
     // set default on images and numbers to visibility:hidden
-    const gridBombs = document.getElementsByClassName("bombs");
-    for (counter = 0; counter < gridBombs.length; counter++){
-        gridBombs[counter].style.visibility = "hidden";
-    };
-    const gridNumbers = document.getElementsByClassName("numbers");
-    for (counter = 0; counter < gridNumbers.length; counter++){
-        gridNumbers[counter].style.visibility = "hidden";
-    };
+    // // hide bombs
+    // for (counter = 0; counter < gridBombs.length; counter++){
+    //     gridBombs[counter].style.visibility = "hidden";
+    // };
+
+    // // hide numbers
+    // for (counter = 0; counter < gridNumbers.length; counter++){
+    //     gridNumbers[counter].style.visibility = "hidden";
+    // };
+
 }
 
 var setBombs = (bombs, difficulty) => {
@@ -140,6 +145,7 @@ var setNumbers = (difficulty) => {
             
             // if square is a bomb, move to next square
             if (gridDisplay[rowIndex][columnIndex] === "bomb"){
+                // exit this run, and continue to next columnIndex
                 continue column;
             }
 
@@ -213,7 +219,27 @@ var setNumbers = (difficulty) => {
 }
 
 
-// if it's empty, expose all adjacentEmptyCells until it hits a number
+// click on square
+// if it's a number, only expose that number
+// if it's blank, expose everything until numbers are reached
+// if bomb, game over. change square color to red. expose the entire board.
+
+var clickBomb = (difficulty) => {
+    const rowLength = levels[difficulty].x;
+    const columnLength = levels[difficulty].y;
+
+    const gridSquare = document.querySelectorAll(".square");
+    
+    for (let rowIndex = 0; rowIndex < rowLength; rowIndex++){
+        for (let columnIndex = 0; columnIndex < columnLength; columnIndex++){
+            if (gridDisplay[rowIndex][columnIndex] === "bomb"){
+                let squareID = document.getElementById(rowIndex + '-' + columnIndex);
+                squareID.style.backgroundColor = "red";
+
+            }
+        }
+    }
+}
 
 
 

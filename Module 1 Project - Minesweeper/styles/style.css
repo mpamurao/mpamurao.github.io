@@ -181,6 +181,12 @@ p#minesweeper{
 #num8{
     color: rgb(55, 55, 56);
 }
+
+.blank{
+    background-color: rgb(165, 162, 162);
+}
+
+
 /* IMAGES */
 /* flag - https://icon-library.com/images/red-flag-icon/red-flag-icon-18.jpg */
 /* bomb - https://esraa-alaarag.github.io/Minesweeper/images/bomb.png */
