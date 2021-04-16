@@ -119,16 +119,20 @@ var loadEasyGrid = () => {
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
         square.addEventListener("click", function() {
+
             // childNodes are the elements inside <div class="square"> tag
-            // loop through each childNode
+            // loop through each childNode (only one per square so not really necessary)
             for (index = 0; index < square.childNodes.length; index++){
                 // console.log(square.childNodes[index].classList)
 
+                childNode = square.childNodes[index];
+
                 // if the element tag inside square is a bomb, call clickBomb()
-                if (square.childNodes[index].className === "bomb-button"){
+                if (childNode.className === "bomb-button"){
+
                     // pass in argument of <class=bomb-button> tag
                     clickBomb(this.childNodes[index]);
-                    // console.log(this.childNodes[index])
+                    console.log(this.childNodes[index])
                 }
             }
        
@@ -245,8 +249,8 @@ var setNumbers = (difficulty) => {
 // click on square
 // if it's a number, only expose that number
 // if it's blank, expose everything until numbers are reached
-// if bomb, game over. change square color to red. expose the entire board.
 
+// if bomb, game over. change square color to red. expose the entire board.
 var clickBomb = (redBomb) => {
     // input = square.childNode[index]
     
@@ -266,6 +270,8 @@ var clickBomb = (redBomb) => {
     
     // make the clicked bomb red
     redBomb.style.backgroundColor = "red";
+
+    // state game over
 }
 
 
