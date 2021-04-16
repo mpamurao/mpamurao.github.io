@@ -7,7 +7,8 @@ const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const mainContainer = document.getElementById("main-container");
 
-const gridBombs = document.getElementsByClassName("bombs");
+const gridSquare = document.getElementsByClassName(".square");
+const gridBombs = document.getElementsByClassName("bomb-button");
 const gridNumbers = document.getElementsByClassName("numbers");
 
 // grid sizes for easy, medium, hard
@@ -17,17 +18,20 @@ const levels = {
     hard: {x: 16, y: 30}
 }
 
+const easy = "easy";
+const medium = "medium";
+const hard = "hard";
+
 // create 2x2 array for easier access in JS
 let gridDisplay = [];
 
 // load default easyMode grid
 var loadEasyGrid = () => {
-    const easy = "easy";
     // manipulate shape of game container
     mainContainer.style.width = "40%";
     mainContainer.style.height = "60%";
     
-    mainGrid.style.height = "85%";
+    mainGrid.style.height = "90%";
     gameHeading.style.height = "15%";
 
     // reset grid template to empty. remove existing ".square" divs inside mainGrid
@@ -46,8 +50,8 @@ var loadEasyGrid = () => {
     }
 
     // place bombs and numbers into grid
-    setBombs(10, "easy");
-    setNumbers("easy");
+    setBombs(10, easy);
+    setNumbers(easy);
 
     // assign grid style of # x # board
     mainGrid.style.gridTemplate =
@@ -60,18 +64,18 @@ var loadEasyGrid = () => {
                 if (gridDisplay[rowIndex][columnIndex] != "blank"){
                     // if it's a bomb, add .square div and image of bomb
                     if (gridDisplay[rowIndex][columnIndex] === "bomb"){
-                        mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' +
-                                                columnIndex + ' onclick="clickBomb()">'+
+                        mainGrid.innerHTML += '<button class="square" id=' + rowIndex + '-' +
+                                                columnIndex + '>'+ '<div class="bomb-button">' +
                                                 '<img src="./images/bomb.png" class="images bombs">'+
-                                                '</div>';
+                                                '</div></button>';
                     }
 
                     // if it's a number, add .square div and number
                     else {
-                        mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' + 
+                        mainGrid.innerHTML += '<button class="square" id=' + rowIndex + '-' + 
                                                 columnIndex + '>'+ '<div class="numbers" id="num' +
                                                 gridDisplay[rowIndex][columnIndex] + '">' +
-                                                gridDisplay[rowIndex][columnIndex] + '</div></div>';
+                                                gridDisplay[rowIndex][columnIndex] + '</div></button>';
                         // console.log(mainGrid.innerHTML);
                     }
 
@@ -79,24 +83,55 @@ var loadEasyGrid = () => {
 
                  // if blank, add only the .square div and class blank
                  else if (gridDisplay[rowIndex][columnIndex] === " "){
-                    mainGrid.innerHTML += '<div class="square " id=' + 
-                                            rowIndex + '-' + columnIndex + '><div class="blank"></div></div>';
+                    mainGrid.innerHTML += '<button class="square " id=' + 
+                                            rowIndex + '-' + columnIndex + '><div class="blank"></div></button>';
                 }
             }
         }
 
-        square = document.getElementsByClassName("square");
-        console.log(square)
+
+    // console.log(square)
     // set default on images and numbers to visibility:hidden
     // // hide bombs
-    // for (counter = 0; counter < gridBombs.length; counter++){
-    //     gridBombs[counter].style.visibility = "hidden";
-    // };
+    for (counter = 0; counter < gridBombs.length; counter++){
+        // gridBombs[counter].style.visibility = "hidden";
+    };
 
-    // // hide numbers
-    // for (counter = 0; counter < gridNumbers.length; counter++){
-    //     gridNumbers[counter].style.visibility = "hidden";
-    // };
+    // hide and unhide numbers
+    for (counter = 0; counter < gridNumbers.length; counter++){
+        // gridNumbers[counter].style.visibility = "hidden";
+        
+    };
+
+    const squares = document.querySelectorAll(".square");
+    // const gridNumbers = document.getElementsByClassName("numbers");
+
+    squares.forEach((square, index) => {
+        square.addEventListener("click", function() {
+        console.log('hello', index)
+            if (square[index] = gridNumbers){
+
+            gridNumbers[index].style.visibility = "hidden";
+            }
+        });
+    });
+
+
+
+
+
+
+
+    // const gridSquare = document.getElementsByClassName("square");
+
+    // for (counter = 0; counter < gridSquare.length; counter++){
+    //     console.log('hello')
+
+    //     gridSquare[counter].addEventListener("click", function() {
+    //         console.log('hello')
+    //         this.style.visibility = "visible";
+    //     });
+    // }
 
 }
 
@@ -209,22 +244,40 @@ var setNumbers = (difficulty) => {
 // if it's blank, expose everything until numbers are reached
 // if bomb, game over. change square color to red. expose the entire board.
 
-var clickBomb = () => {
-    const rowLength = levels.easy.x;
-    const columnLength = levels.easy.y;
-
-    const gridSquare = document.querySelectorAll(".square");
-    
-    for (let rowIndex = 0; rowIndex < rowLength; rowIndex++){
-        for (let columnIndex = 0; columnIndex < columnLength; columnIndex++){
-            if (gridDisplay[rowIndex][columnIndex] === "bomb"){
-                let squareID = document.getElementById(rowIndex + '-' + columnIndex);
-                squareID.style.backgroundColor = "red";
-
-            }
-        }
-    }
+// console.log(gridBombs)
+for (counter = 0; counter < gridBombs.length; counter++){
+    // gridBombs[counter].addEventListener("click",
+    // parentNode.style.backgroundColor = "red")
 }
+
+// var clickBomb = () => {
+    // const rowLength = levels.easy.x;
+    // const columnLength = levels.easy.y;
+    // for (let rowIndex = 0; rowIndex < rowLength; rowIndex++){
+    //     for (let columnIndex = 0; columnIndex < columnLength; columnIndex++){
+    //         if (gridDisplay[rowIndex][columnIndex] === "bomb"){
+                // let squareID = document.getElementById(rowIndex + '-' + columnIndex);
+                // redBomb.parentNode.style.backgroundColor = "red";
+                // console.log(redBomb);
+
+            // }
+        // }
+    // }
+// }
+
+// const gridSquare = document.getElementsByClassName("square");
+
+// for (counter = 0; counter < gridSquare.length; counter++){
+//     console.log('hello')
+//     gridSquare[counter].addEventListener("click", function() {
+//         console.log('hello')
+//         this.style.visibility = "hidden";
+//     });
+// }
+
+// var clickNumber = (input) => {
+//     input.style.visiblity = "visible";
+// }
 
 
 

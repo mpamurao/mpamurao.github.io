@@ -128,8 +128,20 @@ p#minesweeper{
     grid-template: repeat(10, 1fr) / repeat(8, 1fr);
 }
 
+button{
+    background-color: rgba(160, 156, 156, 0);
+    margin:0;
+    padding:0;
+    /* border:1px solid black; */
+    border-radius:3%;
+    box-shadow:inset 2px 1px 1px 1px rgb(230, 227, 227), inset 0px 0px 3px 1px black;
+}
+
+button:active{
+    background-color: rgb(160, 156, 156);
+}
 .square{
-    border:1px solid black; 
+    /* border:1px solid black;  */
     width:100%;
     height:100%;
     display:flex;
@@ -138,10 +150,18 @@ p#minesweeper{
     position: relative;
 }
 
+.bomb-button{
+    /* border:1px solid blue; */
+    width:100%;
+    height:100%;
+    margin:0;
+
+}
+
 .bombs {
     /* border:1px solid red; */
-    width:85%;
-    height:80%;
+    width:100%;
+    height:100%;
     position: relative;
 }
 
