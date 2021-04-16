@@ -6,6 +6,7 @@ mainGrid.innerHTML = '';
 const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const mainContainer = document.getElementById("main-container");
+let buttons;
 
 // .getElementsByClassName = obtain HTML Collection for live data that will 
 // take into account changes in HTML,
@@ -248,26 +249,23 @@ var setNumbers = (difficulty) => {
 
 var clickBomb = (redBomb) => {
     // input = square.childNode[index]
-
-    // make the clicked bomb visible and red
-    redBomb.style.visibility = "visible";
-    redBomb.style.backgroundColor = "red";
-
+    
     // make all squares visible
     squares.forEach((square) => {
         // there's only one element inside square, so can specify childNode[0]
         // without having to loop through list of nodes
         childNode = square.childNodes[0]
+        
+        // make bombs, blanks, and numbers visible. change background to dark gray
         childNode.style.visibility = "visible";
-
-        if (childNode.className === "numbers"){
-            childNode.style.backgroundColor = "rgb(160, 160, 160)";
-        }
-    })
+        childNode.style.backgroundColor = "rgb(160, 160, 160)";
+        
+        // remove box shadow
+        square.style.boxShadow = "none";
+    });
     
-    
-
-
+    // make the clicked bomb red
+    redBomb.style.backgroundColor = "red";
 }
 
 
