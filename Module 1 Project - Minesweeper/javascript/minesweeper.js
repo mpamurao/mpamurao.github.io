@@ -33,6 +33,9 @@ const hard = "hard";
 // create 2x2 array for easier access in JS
 let gridDisplay = [];
 
+// state winner or loser
+let gameWon;
+
 // load default easyMode grid
 var loadEasyGrid = () => {
     // manipulate shape of game container
@@ -72,18 +75,18 @@ var loadEasyGrid = () => {
                 if (gridDisplay[rowIndex][columnIndex] != "blank"){
                     // if it's a bomb, add .square div and image of bomb
                     if (gridDisplay[rowIndex][columnIndex] === "bomb"){
-                        mainGrid.innerHTML += '<button class="square" id=' + rowIndex + '-' +
+                        mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' +
                                                 columnIndex + '>'+ '<div class="bomb-button">' +
                                                 '<img src="./images/bomb.png" class="images bombs">'+
-                                                '</div></button>';
+                                                '</div></div>';
                     }
 
                     // if it's a number, add .square div and number
                     else {
-                        mainGrid.innerHTML += '<button class="square" id=' + rowIndex + '-' + 
+                        mainGrid.innerHTML += '<div class="square" id=' + rowIndex + '-' + 
                                                 columnIndex + '>'+ '<div class="numbers" id="num' +
                                                 gridDisplay[rowIndex][columnIndex] + '">' +
-                                                gridDisplay[rowIndex][columnIndex] + '</div></button>';
+                                                gridDisplay[rowIndex][columnIndex] + '</div></div>';
                         // console.log(mainGrid.innerHTML);
                     }
 
@@ -91,9 +94,9 @@ var loadEasyGrid = () => {
 
                  // if blank, add only the .square div and class blank
                  else if (gridDisplay[rowIndex][columnIndex] === " "){
-                    mainGrid.innerHTML += '<button class="square " id=' + 
+                    mainGrid.innerHTML += '<div class="square " id=' + 
                                             rowIndex + '-' + columnIndex +
-                                            '><div class="blank"></div></button>';
+                                            '><div class="blank"></div></div>';
                 }
             }
         }
@@ -101,7 +104,7 @@ var loadEasyGrid = () => {
     // set default on images and numbers to visibility:hidden
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
-        // gridBombs[counter].style.visibility = "hidden";
+        gridBombs[counter].style.visibility = "hidden";
     };
 
     // hide numbers
@@ -119,7 +122,9 @@ var loadEasyGrid = () => {
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
         square.addEventListener("click", function() {
-
+            if (gameWon === "loser"){
+                return;
+            }
             // childNodes are the elements inside <div class="square"> tag
             // loop through each childNode (only one per square so not really necessary)
             for (index = 0; index < square.childNodes.length; index++){
@@ -262,7 +267,7 @@ var clickBomb = (redBomb) => {
         
         // make bombs, blanks, and numbers visible. change background to dark gray
         childNode.style.visibility = "visible";
-        childNode.style.backgroundColor = "rgb(160, 160, 160)";
+        childNode.style.backgroundColor = "rgb(170, 170, 170)";
         
         // remove box shadow
         square.style.boxShadow = "none";
@@ -272,6 +277,8 @@ var clickBomb = (redBomb) => {
     redBomb.style.backgroundColor = "red";
 
     // state game over
+    gameWon = "loser";
+    
 }
 
 
