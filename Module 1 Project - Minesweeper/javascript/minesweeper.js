@@ -7,7 +7,14 @@ const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const mainContainer = document.getElementById("main-container");
 
+// .getElementsByClassName = obtain HTML Collection for live data that will 
+// take into account changes in HTML,
+// such as when using .innerHTML to add divs
 const gridSquare = document.getElementsByClassName(".square");
+// .querySelector = obtain NodeList which gives static data that exists when called
+//  provides array-like list so can use .forEach function on .square class
+let squares;
+
 const gridBombs = document.getElementsByClassName("bomb-button");
 const gridNumbers = document.getElementsByClassName("numbers");
 
@@ -84,55 +91,50 @@ var loadEasyGrid = () => {
                  // if blank, add only the .square div and class blank
                  else if (gridDisplay[rowIndex][columnIndex] === " "){
                     mainGrid.innerHTML += '<button class="square " id=' + 
-                                            rowIndex + '-' + columnIndex + '><div class="blank"></div></button>';
+                                            rowIndex + '-' + columnIndex +
+                                            '><div class="blank"></div></button>';
                 }
             }
         }
 
-
-    // console.log(square)
     // set default on images and numbers to visibility:hidden
-    // // hide bombs
+    // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
         // gridBombs[counter].style.visibility = "hidden";
     };
 
-    // hide and unhide numbers
+    // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
-        // gridNumbers[counter].style.visibility = "hidden";
+        gridNumbers[counter].style.visibility = "hidden";
         
     };
 
-    const squares = document.querySelectorAll(".square");
-    // const gridNumbers = document.getElementsByClassName("numbers");
+    // define squares to get updated NodeList after grid
+    // is created and attached to HTML
+    squares = document.querySelectorAll(".square");
 
+    // unhide numbers and bombs - hidden elements cannot be directly clicked on
+    // so have to start by clicking on square
+    // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
         square.addEventListener("click", function() {
-        console.log('hello', index)
-            if (square[index] = gridNumbers){
+            // childNodes are the elements inside <div class="square"> tag
+            // loop through each childNode
+            for (index = 0; index < square.childNodes.length; index++){
+                // console.log(square.childNodes[index].classList)
 
-            gridNumbers[index].style.visibility = "hidden";
+                // if the element tag inside square is a bomb, call clickBomb()
+                if (square.childNodes[index].className === "bomb-button"){
+                    // pass in argument of <class=bomb-button> tag
+                    clickBomb(this.childNodes[index]);
+                    // console.log(this.childNodes[index])
+                }
             }
+       
+
+
         });
     });
-
-
-
-
-
-
-
-    // const gridSquare = document.getElementsByClassName("square");
-
-    // for (counter = 0; counter < gridSquare.length; counter++){
-    //     console.log('hello')
-
-    //     gridSquare[counter].addEventListener("click", function() {
-    //         console.log('hello')
-    //         this.style.visibility = "visible";
-    //     });
-    // }
-
 }
 
 var setBombs = (bombs, difficulty) => {
@@ -244,40 +246,30 @@ var setNumbers = (difficulty) => {
 // if it's blank, expose everything until numbers are reached
 // if bomb, game over. change square color to red. expose the entire board.
 
-// console.log(gridBombs)
-for (counter = 0; counter < gridBombs.length; counter++){
-    // gridBombs[counter].addEventListener("click",
-    // parentNode.style.backgroundColor = "red")
+var clickBomb = (redBomb) => {
+    // input = square.childNode[index]
+
+    // make the clicked bomb visible and red
+    redBomb.style.visibility = "visible";
+    redBomb.style.backgroundColor = "red";
+
+    // make all squares visible
+    squares.forEach((square) => {
+        // there's only one element inside square, so can specify childNode[0]
+        // without having to loop through list of nodes
+        childNode = square.childNodes[0]
+        childNode.style.visibility = "visible";
+
+        if (childNode.className === "numbers"){
+            childNode.style.backgroundColor = "rgb(160, 160, 160)";
+        }
+    })
+    
+    
+
+
 }
 
-// var clickBomb = () => {
-    // const rowLength = levels.easy.x;
-    // const columnLength = levels.easy.y;
-    // for (let rowIndex = 0; rowIndex < rowLength; rowIndex++){
-    //     for (let columnIndex = 0; columnIndex < columnLength; columnIndex++){
-    //         if (gridDisplay[rowIndex][columnIndex] === "bomb"){
-                // let squareID = document.getElementById(rowIndex + '-' + columnIndex);
-                // redBomb.parentNode.style.backgroundColor = "red";
-                // console.log(redBomb);
-
-            // }
-        // }
-    // }
-// }
-
-// const gridSquare = document.getElementsByClassName("square");
-
-// for (counter = 0; counter < gridSquare.length; counter++){
-//     console.log('hello')
-//     gridSquare[counter].addEventListener("click", function() {
-//         console.log('hello')
-//         this.style.visibility = "hidden";
-//     });
-// }
-
-// var clickNumber = (input) => {
-//     input.style.visiblity = "visible";
-// }
 
 
 
