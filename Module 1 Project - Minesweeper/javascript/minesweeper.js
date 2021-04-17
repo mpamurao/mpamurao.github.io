@@ -60,7 +60,8 @@ var loadEasyGrid = () => {
             let squareStatus = {
                 bomb: false,
                 number: false,
-                checked: false
+                checked: false,
+                flag: false
             }
             gridColumn[columnIndex] = squareStatus;
         }
@@ -92,7 +93,7 @@ var loadEasyGrid = () => {
                 // if it's a number, add .square div and number
                 else if (gridDisplay[rowIndex][columnIndex].number) {
                     mainGrid.innerHTML += '<div class="square active" id=' + rowIndex + '-' + 
-                                            columnIndex + '>'+ '<div class="numbers" id="num' +
+                                            columnIndex + '>'+ '<div class="numbers num' +
                                             gridDisplay[rowIndex][columnIndex].number + '">' +
                                             gridDisplay[rowIndex][columnIndex].number + '</div></div>';
                     // console.log(mainGrid.innerHTML);
@@ -321,8 +322,7 @@ clickNumber = (number) => {
     number.style.backgroundColor = "rgb(160, 160, 160)";
     number.parentNode.style.boxShadow = "none";
     number.parentNode.classList.remove("active");
-    
-    return;
+
 }
 
 // if it's blank, expose everything until numbers are reached
@@ -330,15 +330,35 @@ var clickBlank = (blank, difficulty) => {
     // make background darker when clicked
     blank.style.backgroundColor = "rgb(160, 160, 160)";
     // obtain the .square div tag
-    const clickedSquare = blank.parentNode;
+    let clickedSquare = blank.parentNode;
     clickedSquare.style.boxShadow = "none";
 
     const index = clickedSquare.id.split("-");
     const rowIndex = index[0];
     const columnIndex = index[1];
     const gridSquare = gridDisplay[rowIndex][columnIndex];
+    
+    // gridSquare is now checked and visible
+    gridSquare.checked = true;
 
+    // declare an array to store all the squares that need to check 
+    // their neighbors until neighbor is bomb or number
     const nodes = [];
+
+    let checkNode = nodes[0];
+    
+    left = rowIndex + "-" + (columnIndex - 1)
+    console.log(left)
+        
+    // check left
+    if (!(gridDisplay[rowIndex][columnIndex - 1].checked)){
+
+        gridDisplay[rowIndex][columnIndex - 1].checked = true;
+    
+        squareLeft = document.getElementById(left);
+        clickNumber(squareLeft.childNodes[0]);
+    
+    }
 
 
      

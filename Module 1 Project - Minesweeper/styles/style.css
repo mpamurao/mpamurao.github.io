@@ -187,28 +187,28 @@ button{
     user-select:none;
 }
 
-#num1{
+.num1{
     color: blue;
 }
-#num2{
+.num2{
     color: green;
 }
-#num3{
+.num3{
     color: red;
 }
-#num4{
+.num4{
     color: rgb(1, 1, 104);
 }
-#num5{
+.num5{
     color: rgb(97, 1, 1);
 }
-#num6{
+.num6{
     color: rgb(51, 122, 155);
 }
-#num7{
+.num7{
     color: rgb(123, 6, 158);
 }
-#num8{
+.num8{
     color: rgb(55, 55, 56);
 }
 
