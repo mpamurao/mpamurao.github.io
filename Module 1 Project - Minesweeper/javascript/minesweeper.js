@@ -150,7 +150,7 @@ var loadEasyGrid = () => {
 
                 else{
                     // console.log(this.childNodes[index]);
-                    clickBlank(this.childNodes[index]);
+                    clickBlank(this.childNodes[index], easy);
                 }
             }
        
@@ -324,38 +324,31 @@ clickNumber = (number) => {
 }
 
 // if it's blank, expose everything until numbers are reached
-var clickBlank = (blank) => {
+var clickBlank = (blank, difficulty) => {
     // make background darker when clicked
     blank.style.backgroundColor = "rgb(160, 160, 160)";
-    
     // obtain the .square div tag
-    const parentNode = blank.parentNode;
-    parentNode.style.boxShadow = "none";
-    console.log(parentNode.id)
+    const clickedSquare = blank.parentNode;
+    clickedSquare.style.boxShadow = "none";
 
-    squares = document.querySelectorAll(".square");
-    
-    for (index = 0; index < squares.length; index++){
-        // loop through all squares until it matches the clicked square
-        if (squares[index].id === parentNode.id){
-            // console.log(squares[index - 1].childNodes[0]);
+    const index = clickedSquare.id.split("-");
+    const rowIndex = index[0];
+    const columnIndex = index[1];
+    const gridSquare = gridDisplay[rowIndex][columnIndex];
 
-            const neighbor = {}
+    const nodes = [];
 
-            // if left column, don't make left square visible. index is 0, 9, 18, etc
 
-    
+     
 
 
 
 
-            // check if squares left, right, above, below, and corners are blanks or numbers
-            // if true, change CSS attributes
 
-            // // if not the left column
-            // if (squares[index - 1] ){
 
-            }
+
+
+        
 
 
 
@@ -376,7 +369,7 @@ var clickBlank = (blank) => {
         //         }
         //     }            
         // }
-    }
+
 
 }
 
