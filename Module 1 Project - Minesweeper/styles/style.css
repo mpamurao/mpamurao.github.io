@@ -166,7 +166,7 @@ button{
     
 }
 
-.bombs {
+.bombs, .flags {
     /* border:1px solid black; */
     width:100%;
     height:85%;
@@ -219,7 +219,7 @@ button{
 
 
 /* IMAGES */
-/* flag - https://icon-library.com/images/red-flag-icon/red-flag-icon-18.jpg */
+/* flag - https://www.google.com/logos/fnbx/minesweeper/flag_icon.png */
 /* bomb - https://esraa-alaarag.github.io/Minesweeper/images/bomb.png */
 /* sunglasses - https://cdn.imgbin.com/4/12/4/imgbin-smiley-pixel-art-emoticon-smiley-iehCHCqW3ev21mqtMmDhjTNKw.jpg */
 /* smile - https://icon2.cleanpng.com/20180202/veq/kisspng-emoji-blushing-smiley-clip-art-blushing-emoji-png-hd-5a753fbd3e1a52.2262150515176334692544.jpg */

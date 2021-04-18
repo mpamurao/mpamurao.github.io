@@ -32,8 +32,8 @@ const hard = "hard";
 // create 2x2 array for easier access in JS
 let gridDisplay = [];
 
-// state winner or loser. if all squares are clicked minus bombs
-let gameStatus;
+// state winner or loser if counter = all squares are clicked minus bombs
+let gameOver;
 let gameCounter = 0;
 
 // load default easyMode grid
@@ -48,8 +48,9 @@ var loadEasyGrid = () => {
     // reset grid template to empty. remove existing ".square" divs inside mainGrid
     emptyGrid();
 
-    // reset gameStatus to empty
-    gameStatus = "";
+    // reset gameOver to empty
+    gameOver = "";
+    gameCounter = 0;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
     for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
@@ -112,7 +113,7 @@ var loadEasyGrid = () => {
     // set default on images and numbers to visibility:hidden
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
-        gridBombs[counter].style.visibility = "hidden";
+        // gridBombs[counter].style.visibility = "hidden";
     };
 
     // hide numbers
@@ -257,12 +258,10 @@ var setNumbers = (difficulty) => {
 // when square is clicked, the function listener inside generateClickFunctions will be called 
 var generateClickFunctions = (square) => () => {
 
-    // exit function. don't make things clickable
-    if (gameStatus === "loser" || gameStatus === "winner"){
-        window.alert(gameStatus);
+    // if game over has a value, exit function. don't make things clickable
+    if (gameOver === "winner" || gameOver === "loser"){
+        return;
     }
-    
-    
 
     // childNodes are the elements inside <div class="square"> tag
     // loop through each childNode (only one per square so not really necessary)
@@ -319,8 +318,7 @@ var clickBomb = (redBomb) => {
 
 
     // state game over
-    gameStatus = "loser";
-
+    gameOver = "loser";
 }
 
 
@@ -339,8 +337,18 @@ clickVisible = (number, difficulty) => {
     let rowIndex = parseInt(squareId[0]);
     let columnIndex = parseInt(squareId[1]);
 
-    // make square checked true
-    gridDisplay[rowIndex][columnIndex].checked = true;
+    // make square checked true as it becomes visible
+    if (!(gridDisplay[rowIndex][columnIndex].checked)){
+        gridDisplay[rowIndex][columnIndex].checked = true;
+        gameCounter++;
+        console.log(gameCounter);
+
+        // if gameCounter = # of blanks+numbers, winner
+        if (gameCounter === levels[difficulty].x * levels[difficulty].y - levels[difficulty].bombs){
+            gameOver = "winner";
+            winner();
+        }
+    }
 
 }
 
@@ -407,8 +415,6 @@ var clickBlank = (blank, difficulty) => {
             
             // if checked is false, haven't modified it's CSS yet
             if (!(gridDisplay[xIndex][yIndex].checked)){
-                // square is being checked
-                gridDisplay[xIndex][yIndex].checked = true;
 
                 // push square child into nodes array
                 nodes.push(neighborSquare.childNodes[0]);
@@ -419,7 +425,24 @@ var clickBlank = (blank, difficulty) => {
 
 }
 
+var winner = () => {
+    squares = document.querySelectorAll(".square");
 
+    // change hidden bombs to visible flag images
+    squares.forEach((square) => {
+        console.log(square)
+
+        childNode = square.childNodes[0];
+        if (childNode.className === "bomb-button"){
+            childNode.innerHTML = '<img src="./images/flag.png" class="images flags"></div>'
+            childNode.style.visibility = "visible";
+            square.classList.remove("active");
+        }
+
+    })
+    
+    return;
+}
 
 
 
