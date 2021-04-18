@@ -111,12 +111,12 @@ var loadEasyGrid = () => {
     // set default on images and numbers to visibility:hidden
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
-        // gridBombs[counter].style.visibility = "hidden";
+        gridBombs[counter].style.visibility = "hidden";
     };
 
     // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
-        // gridNumbers[counter].style.visibility = "hidden";
+        gridNumbers[counter].style.visibility = "hidden";
         
     };
 
@@ -340,6 +340,8 @@ var clickBlank = (blank, difficulty) => {
     // declare an array to store all the squares children and need to 
     // check their neighbors until neighbor is bomb or number
     const nodes = [blank];
+    const rowLength = levels[difficulty].x;
+    const columnLength = levels[difficulty].y;
 
     // continue loop until nodes array is empty
     while (nodes.length > 0){
@@ -347,13 +349,9 @@ var clickBlank = (blank, difficulty) => {
          // focusedBlank = declare the square child that is being worked on (first array element)
         // remove it from the array
         let focusedChild = nodes.shift();
-        console.log(nodes)
-        console.log(focusedChild)
-
 
         // determine grid coordinates of clicked blank
         const squareId = focusedChild.parentNode.id.split("-");
-        console.log(squareId)
         let rowIndex = parseInt(squareId[0]);
         let columnIndex = parseInt(squareId[1]);
 
@@ -364,9 +362,9 @@ var clickBlank = (blank, difficulty) => {
         
         // make current square visible and remove formatting
         clickNumber(focusedChild);
-
+ 
         // if square is numbers, don't push its neighbors into nodes array
-        if (focusedChild.className === "numbers"){
+        if (focusedChild.className.includes("numbers")){
             continue;
         }
 
@@ -385,13 +383,18 @@ var clickBlank = (blank, difficulty) => {
         // loop through length of array of keys in neighbors
         keys = Object.keys(neighbors);
 
+        
         for (index = 0; index < keys.length; index++){
             let xIndex = neighbors[keys[index]].x;
             let yIndex = neighbors[keys[index]].y;
 
+            // if the square doesn't exist, move to next neighbor
+            if (xIndex < 0 || xIndex >= rowLength || yIndex < 0 || yIndex >= columnLength){
+                continue;
+            }
+
             // get square with the corresponding coordinates
             const neighborSquare = document.getElementById(`${xIndex}-${yIndex}`);
-            console.log(gridDisplay[xIndex][yIndex])
             
             // if checked is false, haven't modified it's CSS yet
             if (!(gridDisplay[xIndex][yIndex].checked)){
@@ -403,44 +406,6 @@ var clickBlank = (blank, difficulty) => {
             }
         }
     }
- 
-
-   
-
-
-
-     
-
-
-
-
-
-
-
-
-        
-
-
-
-
-            // left, right, above, below, top left, top right, bottom left, bottom right
-        //     squareNeighbors = [squares[index - 1].childNodes[0], squares[index + 1].childNodes[0],
-        //                         squares[index - 8].childNodes[0], squares[index + 8].childNodes[0],
-        //                         squares[index - 9].childNodes[0], squares[index - 7].childNodes[0],
-        //                         squares[index + 7].childNodes[0], squares[index + 9].childNodes[0]]
-
-        //     console.log(squareNeighbors);
-        //     for (neighbor = 0; neighbor < squareNeighbors.length; neighbor++){
-        //         if (!(squares[index + 1] >= squares.length) && squareNeighbors[neighbor] !== "bomb"){
-        //             squareNeighbors[neighbor].style.backgroundColor = "rgb(160, 160, 160)";
-        //             squareNeighbors[neighbor].style.visibility = "visible";
-        //             squareNeighbors[neighbor].parentNode.style.boxShadow = "none";
-
-        //         }
-        //     }            
-        // }
-
-
 }
 
 
