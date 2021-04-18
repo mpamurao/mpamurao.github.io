@@ -128,39 +128,8 @@ var loadEasyGrid = () => {
     // so have to start by clicking on square
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
-        square.addEventListener("click", function() {
-            // exit function. don't make things clickable
-            if (gameStatus === "loser"){
-                return;
-            }
-            // childNodes are the elements inside <div class="square"> tag
-            // loop through each childNode (only one per square so not really necessary)
-            for (index = 0; index < square.childNodes.length; index++){
-                // console.log(square.childNodes[index].classList)
-
-                childNode = square.childNodes[index];
-
-                // if the element tag inside square is a bomb, call clickBomb()
-                if (childNode.className.includes("bomb-button")){
-
-                    // pass in argument of <class=bomb-button> tag
-                    clickBomb(this.childNodes[index]);
-                }
-                
-                else if (childNode.className.includes("numbers")){
-                    // console.log(this.childNodes[index]);
-                    clickNumber(this.childNodes[index]);
-                }
-
-                else{
-                    // console.log(this.childNodes[index]);
-                    clickBlank(this.childNodes[index], easy);
-                }
-            }
-       
-
-
-        });
+        square.addEventListener("click", generateClickFunctions(square));
+        console.log(square);
     });
 }
 
@@ -279,6 +248,38 @@ var setNumbers = (difficulty) => {
 
 }
 
+// clickFunctions takes in a square. then another function 
+var generateClickFunctions = (square) => () => {
+    console.log(square)
+    // exit function. don't make things clickable
+    if (gameStatus === "loser"){
+        return;
+    }
+    // childNodes are the elements inside <div class="square"> tag
+    // loop through each childNode (only one per square so not really necessary)
+    for (index = 0; index < square.childNodes.length; index++){
+        // console.log(square.childNodes[index].classList)
+
+        childNode = square.childNodes[index];
+
+        // if the element tag inside square is a bomb, call clickBomb()
+        if (childNode.className.includes("bomb-button")){
+
+            // pass in argument of <class=bomb-button> tag
+            clickBomb(childNode);
+        }
+        
+        else if (childNode.className.includes("numbers")){
+            // console.log(childNode);
+            clickNumber(childNode);
+        }
+
+        else{
+            // console.log(childNode);
+            clickBlank(childNode, easy);
+        }
+    }
+}
 
 // click on square
 // right click to make a flag
