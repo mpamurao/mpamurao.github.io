@@ -58,6 +58,8 @@ var loadEasyGrid = () => {
             // default to blank squares
 
             let squareStatus = {
+                x: rowIndex,
+                y: columnIndex,
                 bomb: false,
                 number: false,
                 checked: false,
@@ -80,8 +82,7 @@ var loadEasyGrid = () => {
     // assign gridDisplay into HTML #main-grid
     for (let rowIndex = 0; rowIndex < gridDisplay.length; rowIndex++){
             for (let columnIndex = 0; columnIndex < gridDisplay[0].length; columnIndex++){
-                console.log(gridDisplay[rowIndex][columnIndex])
-
+            
                 // if it's a bomb, add .square div and image of bomb
                 if (gridDisplay[rowIndex][columnIndex].bomb){
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
@@ -100,12 +101,9 @@ var loadEasyGrid = () => {
                  // if blank, add only the .square div and class blank
                  else {
 
-                      mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
+                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
                                                 `<div class="blank"></div></div>`;
                     
-                    // mainGrid.innerHTML += '<div class="square active" id=' + 
-                    //                         rowIndex + '-' + columnIndex +
-                    //                         '><div class="blank"></div></div>';
                 }
             }
         }
@@ -143,14 +141,14 @@ var loadEasyGrid = () => {
                 childNode = square.childNodes[index];
 
                 // if the element tag inside square is a bomb, call clickBomb()
-                if (childNode.className === "bomb-button"){
+                if (childNode.className.includes("bomb-button")){
 
                     // pass in argument of <class=bomb-button> tag
                     clickBomb(this.childNodes[index]);
                 }
                 
-                else if (childNode.className === "numbers"){
-                    // console.log(this.childNodes[index])
+                else if (childNode.className.includes("numbers")){
+                    // console.log(this.childNodes[index]);
                     clickNumber(this.childNodes[index]);
                 }
 
@@ -318,49 +316,97 @@ var clickBomb = (redBomb) => {
 
 // if it's a number, only expose that number
 clickNumber = (number) => {
-    console.log(number);
+    // console.log(number);
     // make the current square visible and remove formatting
     number.style.visibility = "visible";
     number.style.backgroundColor = "rgb(160, 160, 160)";
     number.parentNode.style.boxShadow = "none";
     number.parentNode.classList.remove("active");
 
+    // get grid coordinates
+    const squareId = number.parentNode.id.split("-");
+
+    let rowIndex = parseInt(squareId[0]);
+    let columnIndex = parseInt(squareId[1]);
+
+    // make square checked true
+    gridDisplay[rowIndex][columnIndex].checked = true;
+
+
 }
 
 // if it's blank, expose everything until numbers are reached
 var clickBlank = (blank, difficulty) => {
-    // make background darker when clicked
-    blank.style.backgroundColor = "rgb(160, 160, 160)";
-    // obtain the .square div tag
-    let clickedSquare = blank.parentNode;
-    clickedSquare.style.boxShadow = "none";
+    // declare an array to store all the squares children and need to 
+    // check their neighbors until neighbor is bomb or number
+    const nodes = [blank];
 
-    const index = clickedSquare.id.split("-");
-    const rowIndex = index[0];
-    const columnIndex = index[1];
-    const gridSquare = gridDisplay[rowIndex][columnIndex];
-    
-    // gridSquare is now checked and visible
-    gridSquare.checked = true;
+    // continue loop until nodes array is empty
+    while (nodes.length > 0){
 
-    // declare an array to store all the squares that need to check 
-    // their neighbors until neighbor is bomb or number
-    const nodes = [];
+         // focusedBlank = declare the square child that is being worked on (first array element)
+        // remove it from the array
+        let focusedChild = nodes.shift();
+        console.log(nodes)
+        console.log(focusedChild)
 
-    let checkNode = nodes[0];
-    
-    left = rowIndex + "-" + (columnIndex - 1)
-    console.log(left)
+
+        // determine grid coordinates of clicked blank
+        const squareId = focusedChild.parentNode.id.split("-");
+        console.log(squareId)
+        let rowIndex = parseInt(squareId[0]);
+        let columnIndex = parseInt(squareId[1]);
+
+        // if square is bomb, continue to next item in array. don't format
+        if (focusedChild.className === "bomb-button"){
+            continue;
+        }
         
-    // check left
-    if (!(gridDisplay[rowIndex][columnIndex - 1].checked)){
+        // make current square visible and remove formatting
+        clickNumber(focusedChild);
 
-        gridDisplay[rowIndex][columnIndex - 1].checked = true;
-    
-        squareLeft = document.getElementById(left);
-        clickNumber(squareLeft.childNodes[0]);
-    
+        // if square is numbers, don't push its neighbors into nodes array
+        if (focusedChild.className === "numbers"){
+            continue;
+        }
+
+        // declare all neighbors inside gridDisplay
+        const neighbors = {
+            left: {x: rowIndex, y: columnIndex - 1},
+            right: {x: rowIndex, y: columnIndex + 1},
+            above: {x: rowIndex - 1, y: columnIndex},
+            below: {x: rowIndex + 1, y: columnIndex},
+            topLeft: {x: rowIndex - 1, y: columnIndex - 1},
+            topRight: {x: rowIndex - 1, y: columnIndex + 1},
+            bottomLeft: {x: rowIndex + 1, y: columnIndex - 1},
+            bottomRight: {x: rowIndex + 1, y: columnIndex + 1}
+        }
+
+        // loop through length of array of keys in neighbors
+        keys = Object.keys(neighbors);
+
+        for (index = 0; index < keys.length; index++){
+            let xIndex = neighbors[keys[index]].x;
+            let yIndex = neighbors[keys[index]].y;
+
+            // get square with the corresponding coordinates
+            const neighborSquare = document.getElementById(`${xIndex}-${yIndex}`);
+            console.log(gridDisplay[xIndex][yIndex])
+            
+            // if checked is false, haven't modified it's CSS yet
+            if (!(gridDisplay[xIndex][yIndex].checked)){
+                // square is being checked
+                gridDisplay[xIndex][yIndex].checked = true;
+
+                // push square child into nodes array
+                nodes.push(neighborSquare.childNodes[0]);
+            }
+        }
     }
+ 
+
+   
+
 
 
      
