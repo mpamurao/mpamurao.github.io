@@ -84,26 +84,28 @@ var loadEasyGrid = () => {
 
                 // if it's a bomb, add .square div and image of bomb
                 if (gridDisplay[rowIndex][columnIndex].bomb){
-                    mainGrid.innerHTML += '<div class="square active" id=' + rowIndex + '-' +
-                                            columnIndex + '>'+ '<div class="bomb-button">' +
-                                            '<img src="./images/bomb.png" class="images bombs">'+
-                                            '</div></div>';
+                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
+                                                `<div class="bomb-button">`+
+                                                `<img src="./images/bomb.png" class="images bombs"></div></div>`;
                 }
 
                 // if it's a number, add .square div and number
                 else if (gridDisplay[rowIndex][columnIndex].number) {
-                    mainGrid.innerHTML += '<div class="square active" id=' + rowIndex + '-' + 
-                                            columnIndex + '>'+ '<div class="numbers num' +
-                                            gridDisplay[rowIndex][columnIndex].number + '">' +
-                                            gridDisplay[rowIndex][columnIndex].number + '</div></div>';
+                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
+                                                `<div class="numbers num${gridDisplay[rowIndex][columnIndex].number}">` +
+                                                gridDisplay[rowIndex][columnIndex].number + '</div></div>';
                     // console.log(mainGrid.innerHTML);
                 }
 
                  // if blank, add only the .square div and class blank
                  else {
-                    mainGrid.innerHTML += '<div class="square active" id=' + 
-                                            rowIndex + '-' + columnIndex +
-                                            '><div class="blank"></div></div>';
+
+                      mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
+                                                `<div class="blank"></div></div>`;
+                    
+                    // mainGrid.innerHTML += '<div class="square active" id=' + 
+                    //                         rowIndex + '-' + columnIndex +
+                    //                         '><div class="blank"></div></div>';
                 }
             }
         }
