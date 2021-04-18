@@ -20,9 +20,9 @@ const gridNumbers = document.getElementsByClassName("numbers");
 
 // grid sizes for easy, medium, hard
 const levels = {
-    easy: {x: 9, y:9},
-    medium: {x: 13, y: 15},
-    hard: {x: 16, y: 30}
+    easy: {x: 9, y:9, bombs:10},
+    medium: {x: 13, y: 15, bombs:40},
+    hard: {x: 16, y: 30, bombs:99}
 }
 
 const easy = "easy";
@@ -32,8 +32,9 @@ const hard = "hard";
 // create 2x2 array for easier access in JS
 let gridDisplay = [];
 
-// state winner or loser
+// state winner or loser. if all squares are clicked minus bombs
 let gameStatus;
+let gameCounter = 0;
 
 // load default easyMode grid
 var loadEasyGrid = () => {
@@ -120,16 +121,20 @@ var loadEasyGrid = () => {
         
     };
 
-    // define squares to get updated NodeList after grid
-    // is created and attached to HTML
+    // define squares to get updated NodeList after 
+    // grid is created and attached to HTML
     squares = document.querySelectorAll(".square");
 
     // unhide numbers and bombs - hidden elements cannot be directly clicked on
     // so have to start by clicking on square
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
+
+        // .addEventListener takes in an event called click, 
+        // and also calls the function generateClickFunctions()
+        // generateClickFunctions() acts as a container for all the function listeners 
+        // one of the listeners will activate when "click" if it meets conditions
         square.addEventListener("click", generateClickFunctions(square));
-        console.log(square);
     });
 }
 
@@ -248,13 +253,17 @@ var setNumbers = (difficulty) => {
 
 }
 
-// clickFunctions takes in a square. then another function 
+// generateClickFunctions takes in a square
+// when square is clicked, the function listener inside generateClickFunctions will be called 
 var generateClickFunctions = (square) => () => {
-    console.log(square)
+
     // exit function. don't make things clickable
-    if (gameStatus === "loser"){
-        return;
+    if (gameStatus === "loser" || gameStatus === "winner"){
+        window.alert(gameStatus);
     }
+    
+    
+
     // childNodes are the elements inside <div class="square"> tag
     // loop through each childNode (only one per square so not really necessary)
     for (index = 0; index < square.childNodes.length; index++){
@@ -271,7 +280,7 @@ var generateClickFunctions = (square) => () => {
         
         else if (childNode.className.includes("numbers")){
             // console.log(childNode);
-            clickNumber(childNode);
+            clickVisible(childNode, easy);
         }
 
         else{
@@ -315,8 +324,8 @@ var clickBomb = (redBomb) => {
 }
 
 
-// if it's a number, only expose that number
-clickNumber = (number) => {
+// expose the square
+clickVisible = (number, difficulty) => {
     // console.log(number);
     // make the current square visible and remove formatting
     number.style.visibility = "visible";
@@ -332,7 +341,6 @@ clickNumber = (number) => {
 
     // make square checked true
     gridDisplay[rowIndex][columnIndex].checked = true;
-
 
 }
 
@@ -362,7 +370,7 @@ var clickBlank = (blank, difficulty) => {
         }
         
         // make current square visible and remove formatting
-        clickNumber(focusedChild);
+        clickVisible(focusedChild, difficulty);
  
         // if square is numbers, don't push its neighbors into nodes array
         if (focusedChild.className.includes("numbers")){
@@ -405,9 +413,12 @@ var clickBlank = (blank, difficulty) => {
                 // push square child into nodes array
                 nodes.push(neighborSquare.childNodes[0]);
             }
+            
         }
     }
+
 }
+
 
 
 
