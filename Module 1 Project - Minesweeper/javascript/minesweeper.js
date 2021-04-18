@@ -84,26 +84,26 @@ var loadEasyGrid = () => {
 
                 // if it's a bomb, add .square div and image of bomb
                 if (gridDisplay[rowIndex][columnIndex].bomb){
-                    mainGrid.innerHTML += '<div class="square active bomb-button" id=' + rowIndex + '-' +
-                                            columnIndex + '>'+
-                                            '<img src="./images/bomb.png" class="images bombs">'+ '</div>';
-                    
-                                            console.log(document.getElementsByClassName("square").classList)
+                    mainGrid.innerHTML += '<div class="square active" id=' + rowIndex + '-' +
+                                            columnIndex + '>'+ '<div class="bomb-button">' +
+                                            '<img src="./images/bomb.png" class="images bombs">'+
+                                            '</div></div>';
                 }
 
                 // if it's a number, add .square div and number
                 else if (gridDisplay[rowIndex][columnIndex].number) {
-                    mainGrid.innerHTML += '<div class="square active numbers num' +
-                                            gridDisplay[rowIndex][columnIndex].number + 
-                                            '" id=' + rowIndex + '-' + columnIndex + '>' +
-                                            gridDisplay[rowIndex][columnIndex].number + '</div>';
+                    mainGrid.innerHTML += '<div class="square active" id=' + rowIndex + '-' + 
+                                            columnIndex + '>'+ '<div class="numbers num' +
+                                            gridDisplay[rowIndex][columnIndex].number + '">' +
+                                            gridDisplay[rowIndex][columnIndex].number + '</div></div>';
                     // console.log(mainGrid.innerHTML);
                 }
 
                  // if blank, add only the .square div and class blank
                  else {
-                    mainGrid.innerHTML += '<div class="square active blank" id=' + 
-                                            rowIndex + '-' + columnIndex + '></div>';
+                    mainGrid.innerHTML += '<div class="square active" id=' + 
+                                            rowIndex + '-' + columnIndex +
+                                            '><div class="blank"></div></div>';
                 }
             }
         }
@@ -128,30 +128,34 @@ var loadEasyGrid = () => {
     // so have to start by clicking on square
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
-        console.log(squares[index].classList);
         square.addEventListener("click", function() {
             // exit function. don't make things clickable
             if (gameStatus === "loser"){
                 return;
             }
             // childNodes are the elements inside <div class="square"> tag
-    
+            // loop through each childNode (only one per square so not really necessary)
+            for (index = 0; index < square.childNodes.length; index++){
+                // console.log(square.childNodes[index].classList)
 
-            // if the element tag inside square is a bomb, call clickBomb()
-            if (this.className.includes("bomb-button")){
-                console.log(this)
-                // pass in argument of <class=bomb-button> tag
-                clickBomb(this);
-            }
-            
-            else if (this.className.includes("numbers")){
-                // console.log(this.childNodes[index])
-                clickNumber(this);
-            }
+                childNode = square.childNodes[index];
 
-            else{
-                // console.log(this.childNodes[index]);
-                clickBlank(this, easy);
+                // if the element tag inside square is a bomb, call clickBomb()
+                if (childNode.className === "bomb-button"){
+
+                    // pass in argument of <class=bomb-button> tag
+                    clickBomb(this.childNodes[index]);
+                }
+                
+                else if (childNode.className === "numbers"){
+                    // console.log(this.childNodes[index])
+                    clickNumber(this.childNodes[index]);
+                }
+
+                else{
+                    // console.log(this.childNodes[index]);
+                    clickBlank(this.childNodes[index], easy);
+                }
             }
        
 
@@ -285,10 +289,13 @@ var clickBomb = (redBomb) => {
     
     // make all squares visible
     squares.forEach((square) => {
+        // there's only one element inside square, so can specify childNode[0]
+        // without having to loop through list of nodes
+        childNode = square.childNodes[0]
         
         // make bombs, blanks, and numbers visible. change background to dark gray
-        square.style.visibility = "visible";
-        square.style.backgroundColor = "rgb(160, 160, 160)";
+        childNode.style.visibility = "visible";
+        childNode.style.backgroundColor = "rgb(160, 160, 160)";
         
         // remove box shadow
         square.style.boxShadow = "none";
@@ -313,8 +320,8 @@ clickNumber = (number) => {
     // make the current square visible and remove formatting
     number.style.visibility = "visible";
     number.style.backgroundColor = "rgb(160, 160, 160)";
-    number.style.boxShadow = "none";
-    number.classList.remove("active");
+    number.parentNode.style.boxShadow = "none";
+    number.parentNode.classList.remove("active");
 
 }
 
@@ -349,10 +356,7 @@ var clickBlank = (blank, difficulty) => {
         gridDisplay[rowIndex][columnIndex - 1].checked = true;
     
         squareLeft = document.getElementById(left);
-        nodes.push(squareLeft);
-        
-        // format the square via clickNumber function
-        clickNumber(squareLeft);
+        clickNumber(squareLeft.childNodes[0]);
     
     }
 
