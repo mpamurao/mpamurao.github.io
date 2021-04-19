@@ -116,7 +116,7 @@ p#minesweeper{
     color:rgb(221, 217, 217);
     margin:1%;
 }
-#mine-container, #timer-container {
+#flag-container, #timer-container {
     background-color: rgb(56, 55, 55);
     color:rgb(221, 217, 217);
     text-align: center;

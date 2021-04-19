@@ -5,6 +5,7 @@ const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const smile = document.getElementById("refresh-icon");
 const mainContainer = document.getElementById("main-container");
+const flagContainer = document.getElementById("flag-container");
 const timerContainer = document.getElementById("timer-container");
 
 // .getElementsByClassName = obtain HTML Collection for live data that will 
@@ -15,9 +16,10 @@ const gridSquare = document.getElementsByClassName(".square");
 // .querySelector = obtain NodeList which gives static data that exists when called
 //  provides array-like list so can use .forEach function on .square class
 let squares;
+let flagCounter;
 
 const gridBombs = document.getElementsByClassName("bomb-button");
-const gridFlags = document.getElementsByClassName("flags");
+const gridFlags = document.getElementsByClassName("flag-square");
 const gridNumbers = document.getElementsByClassName("numbers");
 
 // grid sizes for easy, medium, hard
@@ -52,6 +54,8 @@ let currentTime = 0;
 var loadEasyGrid = () => {
 
     let gameLevel = easy;
+    let bombs = levels.easy.bombs;
+    flagCounter = levels.easy.bombs;
 
 
     // manipulate shape of game container
@@ -89,7 +93,7 @@ var loadEasyGrid = () => {
     }
 
     // place bombs and numbers into grid
-    setBombs(10, easy);
+    setBombs(bombs, easy);
     setNumbers(easy);
 
     // assign grid style of # x # board
@@ -104,18 +108,20 @@ var loadEasyGrid = () => {
                 if (gridDisplay[rowIndex][columnIndex].bomb){
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
                                                 `<div class="bomb-button">`+
-                                                `<img src="./images/bomb.png" alt="bomb" class="images bombs"></div>` +
-                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
-                                                `</div>`;
+                                                    `<img src="./images/bomb.png" alt="bomb" class="bombs"></div>` +
+                                                `<div class="flag-square">` +
+                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                            `</div>`;
                 }
 
                 // if it's a number, add .square div and number
                 else if (gridDisplay[rowIndex][columnIndex].number) {
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
                                                 `<div class="numbers num${gridDisplay[rowIndex][columnIndex].number}">` +
-                                                gridDisplay[rowIndex][columnIndex].number + `</div>` +
-                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
-                                                `</div>`;
+                                                    gridDisplay[rowIndex][columnIndex].number + `</div>` +
+                                                `<div class="flag-square">` +
+                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                            `</div>`;
                     // console.log(mainGrid.innerHTML);
                 }
 
@@ -124,8 +130,9 @@ var loadEasyGrid = () => {
 
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
                                                 `<div class="blank"></div>` +
-                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
-                                                `</div>`;
+                                                `<div class="flag-square">` +
+                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                            `</div>`;
                     
                 }
             }
@@ -144,7 +151,7 @@ var loadEasyGrid = () => {
     };
     // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
-        gridNumbers[counter].style.display = "none";
+        // gridNumbers[counter].style.display = "none";
         
     };
 
@@ -157,17 +164,16 @@ var loadEasyGrid = () => {
     // loop through each square and when clicked, do function on hidden elements
     squares.forEach((square, index) => {
 
+        square.addEventListener("mousedown", worried(square));
+        square.addEventListener("mouseup", smiling(square));
+        
         // .addEventListener takes in an event called click, 
         // and also calls the function generateClickFunctions()
         // generateClickFunctions() acts as a container for all the function listeners 
         // one of the listeners will activate when "click" if it meets conditions
         square.addEventListener("click", generateClickFunctions(square));
-
-        square.addEventListener("mousedown", worried(square));
-        square.addEventListener("mouseup", smiling(square));
-        // square.addEventListener("contextmenu", () => {
-        //     square.childNodes[0].innerHTML = ;
-        //     square.preventDefault()
+        
+        square.addEventListener("contextmenu", rightClickFlag(square));
 
     });
 
@@ -176,10 +182,45 @@ var loadEasyGrid = () => {
         if (gameLevel === easy){
             loadEasyGrid();
         }
-    })
+    });
 
 }
 
+const rightClickFlag = (square) => {
+    const showFlag = () => {
+
+        // dont show context menu pop up
+        // square.preventDefault();
+
+        let flagNode = square.childNodes[1];
+    
+        // show flag and add class .showing
+        if (!(flagNode.className.includes("showing"))){
+
+            // if no flags available, don't show more flags
+            if (flagCounter === 0){
+                return;
+            }
+
+            flagNode.style.display = "block";
+            flagNode.classList.add("showing");
+            flagCounter--;
+            flagContainer.innerHTML = flagCounter;
+            console.log("show ", flagNode, flagCounter);
+        }
+
+        // hide flag and remove class .showing
+        else {
+            flagNode.style.display = "none";
+            flagCounter++;
+            flagNode.classList.remove("showing");
+            flagContainer.innerHTML = flagCounter;
+            console.log(flagCounter)
+        } 
+    }
+
+    return showFlag;
+}
 
 const worried = (square) => {
     const smileWorried = () => {
@@ -214,7 +255,8 @@ const smiling = (square) => {
 // empty mainGrid so it has no cells
 var resetGrid = () => {
 
-    // reset smile and timer
+    // reset flag count, smile and timer
+    flagContainer.innerHTML = flagCounter;
     smile.innerHTML = '<button class="faces">&#128516</button>';
     timerContainer.innerHTML = "000";
 
@@ -346,30 +388,25 @@ var generateClickFunctions = (square) => () => {
         return;
     }
 
-    // childNodes are the elements inside <div class="square"> tag
-    // loop through each childNode (only one per square so not really necessary)
-    for (index = 0; index < square.childNodes.length; index++){
-        // console.log(square.childNodes[index].classList)
+    childNode = square.childNodes[0];
 
-        childNode = square.childNodes[index];
+    // if the element tag inside square is a bomb, call clickBomb()
+    if (childNode.className.includes("bomb-button")){
 
-        // if the element tag inside square is a bomb, call clickBomb()
-        if (childNode.className.includes("bomb-button")){
-
-            // pass in argument of <class=bomb-button> tag
-            clickBomb(childNode);
-        }
-        
-        else if (childNode.className.includes("numbers")){
-            // console.log(childNode);
-            clickVisible(childNode, easy);
-        }
-
-        else{
-            // console.log(childNode);
-            clickBlank(childNode, easy);
-        }
+        // pass in argument of <class=bomb-button> tag
+        clickBomb(childNode);
     }
+    
+    else if (childNode.className.includes("numbers")){
+        // console.log(childNode);
+        clickVisible(childNode, easy);
+    }
+
+    else{
+        // console.log(childNode);
+        clickBlank(childNode, easy);
+    }
+
 }
 
 // click on square
@@ -384,10 +421,10 @@ var clickBomb = (redBomb) => {
     squares.forEach((square) => {
         // there's only one element inside square, so can specify childNode[0]
         // without having to loop through list of nodes
-        childNode = square.childNodes[0]
+        childNode = square.childNodes[0];
         
         // make bombs, blanks, and numbers visible. change background to dark gray
-        childNode.style.visibility = "visible";
+        childNode.style.display = "block";
         childNode.style.backgroundColor = "rgb(160, 160, 160)";
         
         // remove box shadow
@@ -411,7 +448,7 @@ var clickBomb = (redBomb) => {
 clickVisible = (number, difficulty) => {
     // console.log(number);
     // make the current square visible and remove formatting
-    number.style.visibility = "visible";
+    number.style.display = "block";
     number.style.backgroundColor = "rgb(160, 160, 160)";
     number.parentNode.style.boxShadow = "none";
     number.parentNode.classList.remove("active");
@@ -563,14 +600,21 @@ var gameStatus = (input) => {
         smile.innerHTML = '<button class="faces">&#128526</button>';
 
         squares.forEach((square) => {
-            console.log(square)
-    
-            childNode = square.childNodes[0];
-            if (childNode.className === "bomb-button"){
-                childNode.innerHTML = '<img src="./images/flag.png" alt="flag" class="images flags"></div>'
-                childNode.style.visibility = "visible";
-                square.classList.remove("active");
+            
+            childNode0 = square.childNodes[0];
+            childNode1 = square.childNodes[1];
+            console.log(childNode0, childNode1)
+
+            if (childNode0.className === "bomb-button"){
+                childNode1.style.display = "block";
+                childNode0.style.display = "none";
             }
+
+            else {
+                childNode0.style.display = "block";
+            }
+                
+            square.classList.remove("active");
         })
     }
 
