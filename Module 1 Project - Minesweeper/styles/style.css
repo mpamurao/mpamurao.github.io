@@ -102,32 +102,68 @@ p#minesweeper{
 #game-heading{
     /* border:1px solid blue; */
     width:100%;
-    height:20%;
+    height:5%;
     padding:2% 4% 1% 4%;
     display:flex;
     flex-flow: row nowrap;
     justify-content: center;
+    align-items: center;
 }
 .game-titles{
     /* border:1px solid orange; */
-    width:50%;
+    width:100%;
     height:100%;
+    color:rgb(221, 217, 217);
+    margin:1%;
 }
-#mine-container, #timer-container{
+#mine-container, #timer-container {
     background-color: rgb(56, 55, 55);
     color:rgb(221, 217, 217);
     text-align: center;
+    padding:3%;
+    font-size: 2vw;
 }
+
+#refresh-icon{
+    width:40%;
+    height:90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.faces{
+    padding:0;
+    margin:1%;
+    width:100%;
+    height: 90%;
+    border:none;
+    background: none;
+    outline: none;
+    font-size: 2vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.faces:hover, .faces:focus{
+    box-shadow: 0px 0px 2px 3px rgb(82, 80, 80);
+    outline:none;
+}
+
+#dead-smiley{
+    width:85%;
+    height: 85%;
+}
+
 
 
 #main-grid{
     /* border:2px solid green; */
     width:100%;
     height:100%;
-    padding:4%;
+    padding: 2%;
     display:grid;
-    /* repeat 10 rows, 8 columns at 1fr */
-    grid-template: repeat(10, 1fr) / repeat(8, 1fr);
 }
 
 button{
@@ -223,6 +259,6 @@ button{
 /* IMAGES */
 /* flag - https://www.google.com/logos/fnbx/minesweeper/flag_icon.png */
 /* bomb - https://esraa-alaarag.github.io/Minesweeper/images/bomb.png */
-/* sunglasses - https://cdn.imgbin.com/4/12/4/imgbin-smiley-pixel-art-emoticon-smiley-iehCHCqW3ev21mqtMmDhjTNKw.jpg */
-/* smile - https://icon2.cleanpng.com/20180202/veq/kisspng-emoji-blushing-smiley-clip-art-blushing-emoji-png-hd-5a753fbd3e1a52.2262150515176334692544.jpg */
-/* surprise - https://www.pngfind.com/pngs/m/106-1068052_when-youre-worried-and-shocked-the-raised-brows.png */
+/* sunglasses - https://www.pngitem.com/pimgs/m/46-462675_sunglasses-emoji-png-transparent-background-emojis-de-twitter.png
+/* thinking - https://i.dlpng.com/static/png/6820132_preview.png*/
+/* dead - https://cdn3.iconfinder.com/data/icons/emoji-63/32/emoticon-16-512.png */

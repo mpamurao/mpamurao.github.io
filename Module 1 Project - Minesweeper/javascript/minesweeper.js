@@ -5,6 +5,7 @@ const mainGrid = document.getElementById("main-grid");
 
 const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
+const smile = document.getElementById("refresh-icon");
 const mainContainer = document.getElementById("main-container");
 
 // .getElementsByClassName = obtain HTML Collection for live data that will 
@@ -40,13 +41,22 @@ let gameCounter = 0;
 let startTime;
 let timer;
 
+
+
+
 // load default easyMode grid
 var loadEasyGrid = () => {
     // manipulate shape of game container
     mainContainer.style.width = "40%";
-    mainContainer.style.height = "60%";
+    mainContainer.style.height = "63%";
     
+    // smile.innerHTML = '<button class="faces"><img src="./images/test.png" alt="smiley" id="smiley"></button>'
+    smile.innerHTML = '<button class="faces">&#128516</button>'
+    // smile.addEventListener("click", )
+    console.log(smile)
+
     mainGrid.style.height = "90%";
+    mainGrid.style.width = "100%";
     gameHeading.style.height = "15%";
 
     // reset grid template to empty. remove existing ".square" divs inside mainGrid
@@ -95,7 +105,7 @@ var loadEasyGrid = () => {
                 if (gridDisplay[rowIndex][columnIndex].bomb){
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
                                                 `<div class="bomb-button">`+
-                                                `<img src="./images/bomb.png" class="images bombs"></div></div>`;
+                                                `<img src="./images/bomb.png" alt="bomb" class="images bombs"></div></div>`;
                 }
 
                 // if it's a number, add .square div and number
@@ -119,7 +129,7 @@ var loadEasyGrid = () => {
     // set default on images and numbers to visibility:hidden
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
-        // gridBombs[counter].style.visibility = "hidden";
+        gridBombs[counter].style.visibility = "hidden";
     };
 
     // hide numbers
@@ -142,7 +152,31 @@ var loadEasyGrid = () => {
         // generateClickFunctions() acts as a container for all the function listeners 
         // one of the listeners will activate when "click" if it meets conditions
         square.addEventListener("click", generateClickFunctions(square));
+        square.addEventListener("mousedown", worried(square));
+        square.addEventListener("mouseup", smiling(square));
     });
+
+}
+
+
+const worried = (square) => {
+    const smileWorried = () => {
+        if (gameOver !== "loser"){
+           smile.innerHTML = '<button class="faces">&#128534</button>';
+        }
+    }
+
+    return smileWorried;
+}
+
+const smiling = (square) => {
+    const smileSmile = () => {
+        if (gameOver !== "loser"){
+           smile.innerHTML = '<button class="faces">&#128516</button>';
+        }
+    }
+
+    return smileSmile;
 }
 
 // empty mainGrid so it has no cells
@@ -326,6 +360,7 @@ var clickBomb = (redBomb) => {
 
     // state game over
     gameOver = "loser";
+    gameStatus(gameOver);
 }
 
 
@@ -460,7 +495,12 @@ var updateTime = () => {
     else if (elapsedTime < 100){
         document.getElementById("timer-container").innerHTML = "0" + elapsedTime;
     }
-    
+
+    // max the time out at 999 seconds
+    else if (elapsedTime > 999) {
+        document.getElementById("timer-container").innerHTML = "999";
+    }
+
     else{
         document.getElementById("timer-container").innerHTML = elapsedTime;
     }
@@ -471,18 +511,25 @@ var gameStatus = (input) => {
 
     // change hidden bombs to visible flag images
     if (input === "winner"){
+        smile.innerHTML = '<button class="faces">&#128526</button>';
+
         squares.forEach((square) => {
             console.log(square)
     
             childNode = square.childNodes[0];
             if (childNode.className === "bomb-button"){
-                childNode.innerHTML = '<img src="./images/flag.png" class="images flags"></div>'
+                childNode.innerHTML = '<img src="./images/flag.png" alt="flag" class="images flags"></div>'
                 childNode.style.visibility = "visible";
                 square.classList.remove("active");
             }
-    
         })
     }
+
+    if (input === "loser"){
+        smile.innerHTML = '<button class="faces"><img  src="./images/dead.webp" alt="dead smiley" id="dead-smiley"></button>'
+        
+    }
+
 
     // turn off timer, stop repeating it
     clearInterval(timer);
