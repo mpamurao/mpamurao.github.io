@@ -1,17 +1,17 @@
 // declare global vars
 const mainGrid = document.getElementById("main-grid");
-// clear grid content
-// mainGrid.innerHTML = '';
 
 const gameHeading = document.getElementById("game-heading");
 const gameTitles = document.querySelectorAll(".game-titles");
 const smile = document.getElementById("refresh-icon");
 const mainContainer = document.getElementById("main-container");
+const timerContainer = document.getElementById("timer-container");
 
 // .getElementsByClassName = obtain HTML Collection for live data that will 
 // take into account changes in HTML,
 // such as when using .innerHTML to add divs
 const gridSquare = document.getElementsByClassName(".square");
+
 // .querySelector = obtain NodeList which gives static data that exists when called
 //  provides array-like list so can use .forEach function on .square class
 let squares;
@@ -40,8 +40,9 @@ let gameOver;
 let gameCounter = 0;
 
 // declare global val of timer
-let startTime;
-let timer;
+let startTime = 0;
+let timer = 0;
+let currentTime = 0;
 
 
 
@@ -57,9 +58,10 @@ var loadEasyGrid = () => {
     mainContainer.style.height = "63%";
     
     // smile.innerHTML = '<button class="faces"><img src="./images/test.png" alt="smiley" id="smiley"></button>'
-    smile.innerHTML = '<button class="faces">&#128516</button>'
+    smile.innerHTML = '<button class="faces">&#128516</button>';
+    timerContainer.innerHTML = "000";
     // smile.addEventListener("click", )
-    console.log(smile)
+    // console.log(smile)
 
     mainGrid.style.height = "90%";
     mainGrid.style.width = "100%";
@@ -72,6 +74,7 @@ var loadEasyGrid = () => {
     gameOver = "";
     gameCounter = 0;
     startTime = 0;
+    currentTime = 0;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
     for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
@@ -397,7 +400,7 @@ clickVisible = (number, difficulty) => {
 
         // start the timer for first click
         if (gameCounter === 0){
-            startTimer(true);
+            startTimer();
         }
 
         gameCounter++;
@@ -485,47 +488,42 @@ var clickBlank = (blank, difficulty) => {
 
 }
 
-var startTimer = (input) => {
+var startTimer = () => {
     
-    if (!(input)){
-        return;
-    }
-    
+    // if timer is false, don't run
     // get the initial time
     startTime = Date.now();
-    
+
     // timer = ID for setInterval. use this ID to stop timer
     // every 1s, call updateTime
-    
     timer = setInterval(updateTime, 1000);
+ 
 }
 
 var updateTime = () => {
-    console.log(gameOver)
-    if (gameOver === ""){
-        currentTime = Date.now();
-    }
+    currentTime = Date.now();
+
     // time that has gone by in seconds
     console.log(startTime, currentTime);
-
+    
     elapsedTime = parseInt((currentTime - startTime) / 1000);
-
-    // show elapsed time
+        
+        // show elapsed time
     if (elapsedTime < 10){
-        document.getElementById("timer-container").innerHTML = "00" + elapsedTime;
+        timerContainer.innerHTML = "00" + elapsedTime;
     }
     
     else if (elapsedTime < 100){
-        document.getElementById("timer-container").innerHTML = "0" + elapsedTime;
+        timerContainer.innerHTML = "0" + elapsedTime;
     }
 
     // max the time out at 999 seconds
     else if (elapsedTime > 999) {
-        document.getElementById("timer-container").innerHTML = "999";
+        timerContainer.innerHTML = "999";
     }
 
     else{
-        document.getElementById("timer-container").innerHTML = elapsedTime;
+        timerContainer.innerHTML = elapsedTime;
     }
 }
 
@@ -555,7 +553,6 @@ var gameStatus = (input) => {
 
 
     // turn off timer, stop repeating it
-    startTimer(false);
     clearInterval(timer);
     return;
 }
