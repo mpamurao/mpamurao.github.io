@@ -17,11 +17,12 @@ const gridSquare = document.getElementsByClassName(".square");
 let squares;
 
 const gridBombs = document.getElementsByClassName("bomb-button");
+const gridFlags = document.getElementsByClassName("flags");
 const gridNumbers = document.getElementsByClassName("numbers");
 
 // grid sizes for easy, medium, hard
 const levels = {
-    easy: {x: 9, y:9, bombs:10},
+    easy: {x: 8, y:8, bombs:10},
     medium: {x: 13, y: 15, bombs:40},
     hard: {x: 16, y: 30, bombs:99}
 }
@@ -54,27 +55,17 @@ var loadEasyGrid = () => {
 
 
     // manipulate shape of game container
-    mainContainer.style.width = "40%";
-    mainContainer.style.height = "63%";
+    mainContainer.style.width = "32%";
+    mainContainer.style.height = "54%";
     
-    // smile.innerHTML = '<button class="faces"><img src="./images/test.png" alt="smiley" id="smiley"></button>'
-    smile.innerHTML = '<button class="faces">&#128516</button>';
-    timerContainer.innerHTML = "000";
-    // smile.addEventListener("click", )
-    // console.log(smile)
 
-    mainGrid.style.height = "90%";
+    mainGrid.style.height = "100%";
     mainGrid.style.width = "100%";
-    gameHeading.style.height = "15%";
+    gameHeading.style.height = "14%";
 
-    // reset grid template to empty. remove existing ".square" divs inside mainGrid
-    emptyGrid();
+    // reset grid to initial state
+    resetGrid();
 
-    // reset gameOver to empty
-    gameOver = "";
-    gameCounter = 0;
-    startTime = 0;
-    currentTime = 0;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
     for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
@@ -113,14 +104,18 @@ var loadEasyGrid = () => {
                 if (gridDisplay[rowIndex][columnIndex].bomb){
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
                                                 `<div class="bomb-button">`+
-                                                `<img src="./images/bomb.png" alt="bomb" class="images bombs"></div></div>`;
+                                                `<img src="./images/bomb.png" alt="bomb" class="images bombs"></div>` +
+                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
+                                                `</div>`;
                 }
 
                 // if it's a number, add .square div and number
                 else if (gridDisplay[rowIndex][columnIndex].number) {
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
                                                 `<div class="numbers num${gridDisplay[rowIndex][columnIndex].number}">` +
-                                                gridDisplay[rowIndex][columnIndex].number + '</div></div>';
+                                                gridDisplay[rowIndex][columnIndex].number + `</div>` +
+                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
+                                                `</div>`;
                     // console.log(mainGrid.innerHTML);
                 }
 
@@ -128,7 +123,9 @@ var loadEasyGrid = () => {
                  else {
 
                     mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
-                                                `<div class="blank"></div></div>`;
+                                                `<div class="blank"></div>` +
+                                                `<img src="./images/flag.png" alt="flag" class="images flags"></div>` +
+                                                `</div>`;
                     
                 }
             }
@@ -137,12 +134,17 @@ var loadEasyGrid = () => {
     // set default on images and numbers to visibility:hidden
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
-        gridBombs[counter].style.visibility = "hidden";
+        gridBombs[counter].style.display = "none";
     };
 
+     // hide flags
+     for (counter = 0; counter < gridFlags.length; counter++){
+        gridFlags[counter].style.display = "none";
+        
+    };
     // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
-        gridNumbers[counter].style.visibility = "hidden";
+        gridNumbers[counter].style.display = "none";
         
     };
 
@@ -160,8 +162,13 @@ var loadEasyGrid = () => {
         // generateClickFunctions() acts as a container for all the function listeners 
         // one of the listeners will activate when "click" if it meets conditions
         square.addEventListener("click", generateClickFunctions(square));
+
         square.addEventListener("mousedown", worried(square));
         square.addEventListener("mouseup", smiling(square));
+        // square.addEventListener("contextmenu", () => {
+        //     square.childNodes[0].innerHTML = ;
+        //     square.preventDefault()
+
     });
 
     // click on smile icon to reload grid;
@@ -176,6 +183,11 @@ var loadEasyGrid = () => {
 
 const worried = (square) => {
     const smileWorried = () => {
+        // if game over has a value, exit function. don't make things clickable
+        if (gameOver === "winner" || gameOver === "loser"){
+            return;
+        }
+        
         if (gameOver !== "loser"){
            smile.innerHTML = '<button class="faces">&#128534</button>';
         }
@@ -186,6 +198,11 @@ const worried = (square) => {
 
 const smiling = (square) => {
     const smileSmile = () => {
+        // if game over has a value, exit function. don't make things clickable
+        if (gameOver === "winner" || gameOver === "loser"){
+            return;
+        }
+                
         if (gameOver !== "loser"){
            smile.innerHTML = '<button class="faces">&#128516</button>';
         }
@@ -195,7 +212,18 @@ const smiling = (square) => {
 }
 
 // empty mainGrid so it has no cells
-var emptyGrid = () => {
+var resetGrid = () => {
+
+    // reset smile and timer
+    smile.innerHTML = '<button class="faces">&#128516</button>';
+    timerContainer.innerHTML = "000";
+
+     // reset gameOver to empty
+     gameOver = "";
+     gameCounter = 0;
+     startTime = 0;
+     currentTime = 0;
+
     // reset grid to empty
     gridDisplay = [];
 
