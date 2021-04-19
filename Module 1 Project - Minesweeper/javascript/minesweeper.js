@@ -30,6 +30,8 @@ const easy = "easy";
 const medium = "medium";
 const hard = "hard";
 
+let gameLevel;
+
 // create 2x2 array for easier access in JS
 let gridDisplay = [];
 
@@ -46,6 +48,10 @@ let timer;
 
 // load default easyMode grid
 var loadEasyGrid = () => {
+
+    let gameLevel = easy;
+
+
     // manipulate shape of game container
     mainContainer.style.width = "40%";
     mainContainer.style.height = "63%";
@@ -66,7 +72,6 @@ var loadEasyGrid = () => {
     gameOver = "";
     gameCounter = 0;
     startTime = 0;
-    timer = 0;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
     for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
@@ -155,6 +160,13 @@ var loadEasyGrid = () => {
         square.addEventListener("mousedown", worried(square));
         square.addEventListener("mouseup", smiling(square));
     });
+
+    // click on smile icon to reload grid;
+    smile.addEventListener("click", () => {
+        if (gameLevel === easy){
+            loadEasyGrid();
+        }
+    })
 
 }
 
@@ -385,11 +397,11 @@ clickVisible = (number, difficulty) => {
 
         // start the timer for first click
         if (gameCounter === 0){
-            startTimer();
+            startTimer(true);
         }
 
         gameCounter++;
-        console.log(gameCounter);
+        // console.log(gameCounter);
 
         // if gameCounter = # of blanks+numbers, winner
         if (gameCounter === levels[difficulty].x * levels[difficulty].y - levels[difficulty].bombs){
@@ -473,19 +485,30 @@ var clickBlank = (blank, difficulty) => {
 
 }
 
-var startTimer = () => {
+var startTimer = (input) => {
+    
+    if (!(input)){
+        return;
+    }
+    
     // get the initial time
-    startTime = new Date();
+    startTime = Date.now();
     
     // timer = ID for setInterval. use this ID to stop timer
     // every 1s, call updateTime
+    
     timer = setInterval(updateTime, 1000);
 }
 
 var updateTime = () => {
-    currentTime = new Date();
+    console.log(gameOver)
+    if (gameOver === ""){
+        currentTime = Date.now();
+    }
     // time that has gone by in seconds
-    elapsedTime = parseInt((currentTime.getTime() - startTime.getTime()) / 1000);
+    console.log(startTime, currentTime);
+
+    elapsedTime = parseInt((currentTime - startTime) / 1000);
 
     // show elapsed time
     if (elapsedTime < 10){
@@ -532,6 +555,7 @@ var gameStatus = (input) => {
 
 
     // turn off timer, stop repeating it
+    startTimer(false);
     clearInterval(timer);
     return;
 }
@@ -557,6 +581,8 @@ var gameStatus = (input) => {
 
 // mediumMode
 var loadMediumGrid = () => {
+
+    let gameLevel = medium;
 
     // manipulate size of #main-container
     mainContainer.style.width = "80%";
@@ -586,6 +612,8 @@ var loadMediumGrid = () => {
 
 // hardMode
 var loadHardGrid = () => {
+
+    let gameLevel = hard;
 
     // manipulate size of #main-container
     mainContainer.style.width = "100%";
