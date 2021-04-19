@@ -115,6 +115,8 @@ p#minesweeper{
 }
 #mine-container, #timer-container{
     background-color: rgb(56, 55, 55);
+    color:rgb(221, 217, 217);
+    text-align: center;
 }
 
 

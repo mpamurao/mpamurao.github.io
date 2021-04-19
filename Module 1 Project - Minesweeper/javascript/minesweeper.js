@@ -36,6 +36,10 @@ let gridDisplay = [];
 let gameOver;
 let gameCounter = 0;
 
+// declare global val of timer
+let startTime;
+let timer;
+
 // load default easyMode grid
 var loadEasyGrid = () => {
     // manipulate shape of game container
@@ -51,6 +55,8 @@ var loadEasyGrid = () => {
     // reset gameOver to empty
     gameOver = "";
     gameCounter = 0;
+    startTime = 0;
+    timer = 0;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
     for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
@@ -294,6 +300,7 @@ var generateClickFunctions = (square) => () => {
 
 // if bomb, game over. change square color to red. expose the entire board.
 var clickBomb = (redBomb) => {
+
     // redBomb = square.childNode[index]
     
     // make all squares visible
@@ -340,13 +347,19 @@ clickVisible = (number, difficulty) => {
     // make square checked true as it becomes visible
     if (!(gridDisplay[rowIndex][columnIndex].checked)){
         gridDisplay[rowIndex][columnIndex].checked = true;
+
+        // start the timer for first click
+        if (gameCounter === 0){
+            startTimer();
+        }
+
         gameCounter++;
         console.log(gameCounter);
 
         // if gameCounter = # of blanks+numbers, winner
         if (gameCounter === levels[difficulty].x * levels[difficulty].y - levels[difficulty].bombs){
             gameOver = "winner";
-            winner();
+            gameStatus(gameOver);
         }
     }
 
@@ -425,22 +438,54 @@ var clickBlank = (blank, difficulty) => {
 
 }
 
-var winner = () => {
+var startTimer = () => {
+    // get the initial time
+    startTime = new Date();
+    
+    // timer = ID for setInterval. use this ID to stop timer
+    // every 1s, call updateTime
+    timer = setInterval(updateTime, 1000);
+}
+
+var updateTime = () => {
+    currentTime = new Date();
+    // time that has gone by in seconds
+    elapsedTime = parseInt((currentTime.getTime() - startTime.getTime()) / 1000);
+
+    // show elapsed time
+    if (elapsedTime < 10){
+        document.getElementById("timer-container").innerHTML = "00" + elapsedTime;
+    }
+    
+    else if (elapsedTime < 100){
+        document.getElementById("timer-container").innerHTML = "0" + elapsedTime;
+    }
+    
+    else{
+        document.getElementById("timer-container").innerHTML = elapsedTime;
+    }
+}
+
+var gameStatus = (input) => {
     squares = document.querySelectorAll(".square");
 
     // change hidden bombs to visible flag images
-    squares.forEach((square) => {
-        console.log(square)
-
-        childNode = square.childNodes[0];
-        if (childNode.className === "bomb-button"){
-            childNode.innerHTML = '<img src="./images/flag.png" class="images flags"></div>'
-            childNode.style.visibility = "visible";
-            square.classList.remove("active");
-        }
-
-    })
+    if (input === "winner"){
+        squares.forEach((square) => {
+            console.log(square)
     
+            childNode = square.childNodes[0];
+            if (childNode.className === "bomb-button"){
+                childNode.innerHTML = '<img src="./images/flag.png" class="images flags"></div>'
+                childNode.style.visibility = "visible";
+                square.classList.remove("active");
+            }
+    
+        })
+    }
+
+    // turn off timer, stop repeating it
+    clearInterval(timer);
     return;
 }
 
