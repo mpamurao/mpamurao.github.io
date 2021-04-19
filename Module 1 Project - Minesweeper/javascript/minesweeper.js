@@ -2,8 +2,8 @@
 const mainGrid = document.getElementById("main-grid");
 
 const gameHeading = document.getElementById("game-heading");
-const gameTitles = document.querySelectorAll(".game-titles");
 const smile = document.getElementById("refresh-icon");
+const smileyFaces = document.getElementsByClassName(".faces");
 const mainContainer = document.getElementById("main-container");
 const flagContainer = document.getElementById("flag-container");
 const timerContainer = document.getElementById("timer-container");
@@ -43,41 +43,89 @@ let gameOver;
 let gameCounter = 0;
 
 // declare global val of timer
-let startTime = 0;
-let timer = 0;
-let currentTime = 0;
-
-
-
+let timer;
+let gameStart;
 
 // load default easyMode grid
 var loadEasyGrid = () => {
 
-    let gameLevel = easy;
-    let bombs = levels.easy.bombs;
+    gameLevel = easy;
     flagCounter = levels.easy.bombs;
 
+    // reset grid to initial state
+    resetGrid();
 
     // manipulate shape of game container
-    mainContainer.style.width = "32%";
-    mainContainer.style.height = "54%";
+    mainContainer.style.width = "30%";
+    mainContainer.style.height = "60%";
+    flagContainer.style.padding = "1.5%";
+    timerContainer.style.padding = "1.5%";
     
 
     mainGrid.style.height = "100%";
     mainGrid.style.width = "100%";
     gameHeading.style.height = "14%";
 
-    // reset grid to initial state
-    resetGrid();
+    // create array grid and link to HTML
+    createGrid(easy);
 
+    // make numbers, bombs, and flags display:none
+    hideSquares();
+
+    // add eventListeners to squares
+    squareEvents();
+
+    // click on smile icon to reload grid;
+    smile.addEventListener("click", () => {
+        if (gameLevel === easy){
+            loadEasyGrid();
+        }
+    });
+}
+
+
+
+// mediumMode
+
+
+// hardMode
+
+
+
+// reset mainGrid so it has no cells
+var resetGrid = () => {
+
+    // reset flag count, smile and timer
+    flagContainer.innerHTML = flagCounter;
+    smile.innerHTML = '<button class="faces">&#128516</button>';
+    timerContainer.innerHTML = "000";
+
+    // reset gameOver to empty
+    gameOver = "";
+    gameCounter = 0;
+    gameStart = false;
+    clearInterval(timer);
+
+    // reset grid to empty
+    gridDisplay = [];
+
+    const removeSquare = document.querySelectorAll(".square");
+    removeSquare.forEach((square) =>{
+        // .parentNode is parent of current node (here, it's element)
+        square.parentNode.removeChild(square);
+    });
+}
+
+const createGrid = (difficulty) => {
+
+    let bombs = levels[difficulty].bombs;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
-    for (let rowIndex = 0; rowIndex < levels.easy.x; rowIndex++){
+    for (let rowIndex = 0; rowIndex < levels[difficulty].x; rowIndex++){
         const gridColumn = [];
 
-        for (let columnIndex = 0; columnIndex < levels.easy.y; columnIndex++){
+        for (let columnIndex = 0; columnIndex < levels[difficulty].y; columnIndex++){
             // default to blank squares
-
             let squareStatus = {
                 x: rowIndex,
                 y: columnIndex,
@@ -88,7 +136,6 @@ var loadEasyGrid = () => {
             }
             gridColumn[columnIndex] = squareStatus;
         }
-
         gridDisplay.push(gridColumn);
     }
 
@@ -98,62 +145,67 @@ var loadEasyGrid = () => {
 
     // assign grid style of # x # board
     mainGrid.style.gridTemplate =
-        "repeat(" + levels.easy.x + ", 1fr) / repeat(" + levels.easy.y + ", 1fr)";
-    
+    "repeat(" + levels[difficulty].x + ", 1fr) / repeat(" + levels[difficulty].y + ", 1fr)";
+
     // assign gridDisplay into HTML #main-grid
     for (let rowIndex = 0; rowIndex < gridDisplay.length; rowIndex++){
-            for (let columnIndex = 0; columnIndex < gridDisplay[0].length; columnIndex++){
-            
-                // if it's a bomb, add .square div and image of bomb
-                if (gridDisplay[rowIndex][columnIndex].bomb){
-                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
-                                                `<div class="bomb-button">`+
-                                                    `<img src="./images/bomb.png" alt="bomb" class="bombs"></div>` +
-                                                `<div class="flag-square">` +
-                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
-                                            `</div>`;
-                }
+        for (let columnIndex = 0; columnIndex < gridDisplay[0].length; columnIndex++){
+        
+            // if it's a bomb, add .square div and image of bomb
+            if (gridDisplay[rowIndex][columnIndex].bomb){
+                mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
+                                            `<div class="bomb-button">`+
+                                                `<img src="./images/bomb.png" alt="bomb" class="bombs"></div>` +
+                                            `<div class="flag-square">` +
+                                                `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                        `</div>`;
+            }
 
-                // if it's a number, add .square div and number
-                else if (gridDisplay[rowIndex][columnIndex].number) {
-                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
-                                                `<div class="numbers num${gridDisplay[rowIndex][columnIndex].number}">` +
-                                                    gridDisplay[rowIndex][columnIndex].number + `</div>` +
-                                                `<div class="flag-square">` +
-                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
-                                            `</div>`;
-                    // console.log(mainGrid.innerHTML);
-                }
+            // if it's a number, add .square div and number
+            else if (gridDisplay[rowIndex][columnIndex].number) {
+                mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
+                                            `<div class="numbers num${gridDisplay[rowIndex][columnIndex].number}">` +
+                                                gridDisplay[rowIndex][columnIndex].number + `</div>` +
+                                            `<div class="flag-square">` +
+                                                `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                        `</div>`;
+                // console.log(mainGrid.innerHTML);
+            }
 
-                 // if blank, add only the .square div and class blank
-                 else {
-
-                    mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
-                                                `<div class="blank"></div>` +
-                                                `<div class="flag-square">` +
-                                                    `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
-                                            `</div>`;
-                    
-                }
+            // if blank, add only the .square div and class blank
+            else {
+                mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` +
+                                            `<div class="blank"></div>` +
+                                            `<div class="flag-square">` +
+                                                `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
+                                        `</div>`;
             }
         }
+    }
+}
 
-    // set default on images and numbers to visibility:hidden
+
+// set default on images and numbers to display:none
+const hideSquares = () => {
+
     // hide bombs
     for (counter = 0; counter < gridBombs.length; counter++){
         gridBombs[counter].style.display = "none";
-    };
+    }
 
      // hide flags
      for (counter = 0; counter < gridFlags.length; counter++){
         gridFlags[counter].style.display = "none";
         
-    };
+    }
     // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
-        // gridNumbers[counter].style.display = "none";
+        gridNumbers[counter].style.display = "none";
         
-    };
+    }
+}
+
+const squareEvents = () => {
 
     // define squares to get updated NodeList after 
     // grid is created and attached to HTML
@@ -176,108 +228,43 @@ var loadEasyGrid = () => {
         square.addEventListener("contextmenu", rightClickFlag(square));
 
     });
-
-    // click on smile icon to reload grid;
-    smile.addEventListener("click", () => {
-        if (gameLevel === easy){
-            loadEasyGrid();
-        }
-    });
-
 }
 
-const rightClickFlag = (square) => {
-    const showFlag = () => {
-
-        // dont show context menu pop up
-        // square.preventDefault();
-
-        let flagNode = square.childNodes[1];
-    
-        // show flag and add class .showing
-        if (!(flagNode.className.includes("showing"))){
-
-            // if no flags available, don't show more flags
-            if (flagCounter === 0){
-                return;
-            }
-
-            flagNode.style.display = "block";
-            flagNode.classList.add("showing");
-            flagCounter--;
-            flagContainer.innerHTML = flagCounter;
-            console.log("show ", flagNode, flagCounter);
-        }
-
-        // hide flag and remove class .showing
-        else {
-            flagNode.style.display = "none";
-            flagCounter++;
-            flagNode.classList.remove("showing");
-            flagContainer.innerHTML = flagCounter;
-            console.log(flagCounter)
-        } 
-    }
-
-    return showFlag;
-}
-
+// when clicking on smiling icon listener functions
 const worried = (square) => {
+
     const smileWorried = () => {
         // if game over has a value, exit function. don't make things clickable
         if (gameOver === "winner" || gameOver === "loser"){
             return;
         }
         
-        if (gameOver !== "loser"){
-           smile.innerHTML = '<button class="faces">&#128534</button>';
-        }
+        smile.innerHTML = '<button class="faces">&#128534</button>';
     }
 
     return smileWorried;
 }
 
+
 const smiling = (square) => {
+
     const smileSmile = () => {
         // if game over has a value, exit function. don't make things clickable
         if (gameOver === "winner" || gameOver === "loser"){
             return;
         }
                 
-        if (gameOver !== "loser"){
-           smile.innerHTML = '<button class="faces">&#128516</button>';
-        }
+        smile.innerHTML = '<button class="faces">&#128516</button>';
     }
 
     return smileSmile;
 }
 
-// empty mainGrid so it has no cells
-var resetGrid = () => {
-
-    // reset flag count, smile and timer
-    flagContainer.innerHTML = flagCounter;
-    smile.innerHTML = '<button class="faces">&#128516</button>';
-    timerContainer.innerHTML = "000";
-
-     // reset gameOver to empty
-     gameOver = "";
-     gameCounter = 0;
-     startTime = 0;
-     currentTime = 0;
-
-    // reset grid to empty
-    gridDisplay = [];
-
-    const removeSquare = document.querySelectorAll(".square");
-    removeSquare.forEach((square) =>{
-        // .parentNode is parent of current node (here, it's element)
-        square.parentNode.removeChild(square);
-    });
-}
 
 
+// places bombs in grid
 var setBombs = (bombs, difficulty) => {
+
     // set number of bombs in bombCount
     let bombCount = bombs;
     // console.log("initial bombs " + bombCount);
@@ -308,8 +295,7 @@ var setBombs = (bombs, difficulty) => {
 }
 
 
-// set adjacentBombs++ counter for each adjacent cell
-// (rowIndex - 1, rowIndex + 1, columnIndex +)
+// place numbers in grid
 var setNumbers = (difficulty) => {
   
     const rowLength = levels[difficulty].x;
@@ -376,8 +362,53 @@ var setNumbers = (difficulty) => {
             }
         }
     }
-
 }
+
+
+
+
+// listener to right click squares and show flag
+const rightClickFlag = (square) => {
+    const showFlag = (e) => {
+
+        // dont show context menu pop up
+        e.preventDefault();
+
+        let flagNode = square.childNodes[1];
+        let childNode = square.childNodes[0];
+        console.log(childNode)
+
+        // show flag and add class .showing
+        if (!(flagNode.className.includes("showing"))){
+
+            // if no flags available or if square is already visible, don't show more flags
+            if (flagCounter === 0 || childNode.style.display === "block"){
+                return;
+            }
+
+            flagNode.style.display = "block";
+            flagNode.classList.add("showing");
+            flagCounter--;
+            flagContainer.innerHTML = flagCounter;
+        }
+
+        // hide flag and remove class .showing
+        else {
+            flagNode.style.display = "none";
+            flagCounter++;
+            flagNode.classList.remove("showing");
+            flagContainer.innerHTML = flagCounter;
+        } 
+
+        if (!(gameStart)){
+            startTimer();
+            gameStart = true;
+        }
+    }
+
+    return showFlag;
+}
+
 
 // generateClickFunctions takes in a square
 // when square is clicked, the function listener inside generateClickFunctions will be called 
@@ -406,11 +437,8 @@ var generateClickFunctions = (square) => () => {
         // console.log(childNode);
         clickBlank(childNode, easy);
     }
-
 }
 
-// click on square
-// right click to make a flag
 
 // if bomb, game over. change square color to red. expose the entire board.
 var clickBomb = (redBomb) => {
@@ -419,13 +447,16 @@ var clickBomb = (redBomb) => {
     
     // make all squares visible
     squares.forEach((square) => {
-        // there's only one element inside square, so can specify childNode[0]
+        // specify childNode[0] for the bomb div
         // without having to loop through list of nodes
-        childNode = square.childNodes[0];
-        
+        childNode0 = square.childNodes[0];
+        childNode1 = square.childNodes[1];
         // make bombs, blanks, and numbers visible. change background to dark gray
-        childNode.style.display = "block";
-        childNode.style.backgroundColor = "rgb(160, 160, 160)";
+        childNode0.style.display = "block";
+        childNode0.style.backgroundColor = "rgb(160, 160, 160)";
+
+        // hide flags
+        childNode1.style.display = "none";
         
         // remove box shadow
         square.style.boxShadow = "none";
@@ -437,15 +468,15 @@ var clickBomb = (redBomb) => {
     // make the clicked bomb red
     redBomb.style.backgroundColor = "red";
 
-
     // state game over
     gameOver = "loser";
     gameStatus(gameOver);
 }
 
 
-// expose the square
+// display squares as they're focused
 clickVisible = (number, difficulty) => {
+
     // console.log(number);
     // make the current square visible and remove formatting
     number.style.display = "block";
@@ -464,8 +495,9 @@ clickVisible = (number, difficulty) => {
         gridDisplay[rowIndex][columnIndex].checked = true;
 
         // start the timer for first click
-        if (gameCounter === 0){
+        if (!(gameStart)){
             startTimer();
+            gameStart = true;
         }
 
         gameCounter++;
@@ -477,11 +509,12 @@ clickVisible = (number, difficulty) => {
             gameStatus(gameOver);
         }
     }
-
 }
 
-// if it's blank, expose everything until numbers are reached
+
+// if it's blank, expose square by calling clickVisible. expose blanks and numbers. don't reveal bombs
 var clickBlank = (blank, difficulty) => {
+
     // declare an array to store all the squares children and need to 
     // check their neighbors until neighbor is bomb or number
     const nodes = [blank];
@@ -491,7 +524,7 @@ var clickBlank = (blank, difficulty) => {
     // continue loop until nodes array is empty
     while (nodes.length > 0){
 
-         // focusedBlank = declare the square child that is being worked on (first array element)
+        // focusedBlank = declare the square child that is being worked on (first array element)
         // remove it from the array
         let focusedChild = nodes.shift();
 
@@ -547,12 +580,12 @@ var clickBlank = (blank, difficulty) => {
                 // push square child into nodes array
                 nodes.push(neighborSquare.childNodes[0]);
             }
-            
         }
     }
-
 }
 
+
+// timer functions
 var startTimer = () => {
     
     // if timer is false, don't run
@@ -562,15 +595,16 @@ var startTimer = () => {
     // timer = ID for setInterval. use this ID to stop timer
     // every 1s, call updateTime
     timer = setInterval(updateTime, 1000);
- 
 }
 
+
 var updateTime = () => {
+
     currentTime = Date.now();
 
-    // time that has gone by in seconds
-    console.log(startTime, currentTime);
+    // console.log(startTime, currentTime);
     
+    // time that has gone by in seconds
     elapsedTime = parseInt((currentTime - startTime) / 1000);
         
         // show elapsed time
@@ -592,7 +626,10 @@ var updateTime = () => {
     }
 }
 
+
+// once game is over, set the board to final display
 var gameStatus = (input) => {
+
     squares = document.querySelectorAll(".square");
 
     // change hidden bombs to visible flag images
@@ -615,98 +652,14 @@ var gameStatus = (input) => {
             }
                 
             square.classList.remove("active");
-        })
+        });
     }
 
     if (input === "loser"){
-        smile.innerHTML = '<button class="faces"><img  src="./images/dead.webp" alt="dead smiley" id="dead-smiley"></button>'
-        
+        smile.innerHTML = '<button class="faces">&#128128</button>';
     }
-
 
     // turn off timer, stop repeating it
     clearInterval(timer);
     return;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// mediumMode
-var loadMediumGrid = () => {
-
-    let gameLevel = medium;
-
-    // manipulate size of #main-container
-    mainContainer.style.width = "80%";
-    mainContainer.style.height = "75%";
-
-    mainGrid.style.height = "85%";
-    gameHeading.style.height = "15%";
-    
-    // reset grid template. remove existing ".square" divs inside mainGrid
-    emptyGrid();
-    
-    // assign grid style of # x # board
-    mainGrid.style.gridTemplate = 
-        "repeat(" + levels.medium.x + ", 1fr) / repeat(" + levels.medium.y + ", 1fr)";
-
-    // // add cells inside #main-grid
-    for (rowIndex = 0; rowIndex < levels.medium.x; rowIndex++){
-       for (columnIndex = 0; columnIndex < levels.medium.y; columnIndex++){
-            mainGrid.innerHTML += '<div class="square" id=' + 
-                rowIndex + '-' + columnIndex + '></div>';
-        }
-    }
-
-    // place mines, blanks, and numbers
-    setBomb(40, "medium");
-}
-
-// hardMode
-var loadHardGrid = () => {
-
-    let gameLevel = hard;
-
-    // manipulate size of #main-container
-    mainContainer.style.width = "100%";
-    mainContainer.style.height = "80%";
-
-    mainGrid.style.height = "95%";
-    gameHeading.style.height = "18%";
-
-    // reset grid template. remove existing ".square" divs inside mainGrid
-    emptyGrid();
-    
-     // assign grid style of # x # board
-     mainGrid.style.gridTemplate = 
-     "repeat(" + levels.hard.x + ", 1fr) / repeat(" + levels.hard.y + ", 1fr)";
-
- // // add cells inside #main-grid
- for (rowIndex = 0; rowIndex < levels.hard.x; rowIndex++){
-    for (columnIndex = 0; columnIndex < levels.hard.y; columnIndex++){
-         mainGrid.innerHTML += '<div class="square" id=' + 
-             rowIndex + '-' + columnIndex + '></div>';
-     }
- }
-
-    // place mines, blanks, and numbers
-    setBomb(99, "hard");
-    
 }
