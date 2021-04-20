@@ -3,17 +3,19 @@ Per Scholas Bootcamp Projects
 
 Project 1 - Minesweeper
 
-A README.md file with explanations of the technologies used, the approach taken, a link to your live site, installation instructions, unsolved problems, etc.
+A README.md file with a link to the live site, explanations of the technologies used, the approach taken,, installation instructions, unsolved problems, etc.
 
 Github Pages: https://mpamurao.github.io/
 
 Created HTML, CSS, and Javascript files to build the Minesweeper game.
 
-HTML - created divs for the top-heading-container which includes the title "MINESWEEPER" and divs that can be clicked on to load the easy, 		medium, or hard grids
+HTML:
+1. created divs for the top-heading-container which includes the title "MINESWEEPER" and divs that can be clicked on to load the easy, 		medium, or hard grids
 	
-	created a main-body div which holds the main-container. the main-container shows the Minesweeper board using JS
+2. created a main-body div which holds the main-container. the main-container shows the Minesweeper board using JS
 
-CSS - created CSS attributes for all the divs that are initialized in the HTML and the ones that are dynamically created in JS
+CSS:
+created CSS attributes for all the divs that are initialized in the HTML and the ones that are dynamically created in JS
 
 JavaScript Layout:
 1. declared all the global variables that obtain elements from the HTML, an object called "levels" for the different difficulties, and variables used to know when the game has started and time it
@@ -25,14 +27,18 @@ mousedown - if click down with mouse, the smiley face will change to worried
 mouseup - after letting go of mouse click down, the smiley face will revert back to happy
 contextmenu - right click on a square to show/hide a flag on the square
 
-click - click on a square, and depending on if it's a bomb/blank/number, then it will do a function. following click functions are:
+click events - click on a square, and depending on if it's a bomb/blank/number, then it will do a function. following click functions are:
 
 clickBomb - if bomb is clicked, game is over and board is exposed. click on the smiley face or a difficulty button to start a new game
+
 clickVisible - make the square visible. this will happen immediately if it's a number. for a blank, it will be called inside the clickBlank function
+
 clickBlank - stores squares inside an array. the array starts with the focused square, which is shifted out of the array and made visible. for this index, the neighboring squares will be looked at and added to the array if it meets conditions. this is in a while loop, so the next element will become the focused index, and its neighbors will be added to the array. once the array no longer has squares, the loop ends.
 
 timer starts on the first click. once the game is over, clearInterval is called. once a bomb is clicked (loser) or the board is cleared minus the bombs (winner), the game is over. the final display of the board is setup using the function gameStatus().
 
 
 Unsolved problems:
-for the larger grids (Medium and Hard), it takes longer to load the game and could freeze the browser temporarily. this is probably due to inefficiencies in the code.
+for the larger grids (Medium and Hard), it takes longer to load the game and could freeze the browser temporarily. this is probably due to inefficiencies in the code. 
+
+the more times the game is reset using the smiley icon, the longer it takes to load.
