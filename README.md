@@ -3,7 +3,7 @@ Per Scholas Bootcamp Projects
 
 Project 1 - Minesweeper
 
-A README.md file with a link to the live site, explanations of the technologies used, the approach taken,, installation instructions, unsolved problems, etc.
+A README.md file with a link to the live site, explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc.
 
 Github Pages: https://mpamurao.github.io/
 
