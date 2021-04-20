@@ -87,13 +87,13 @@ const loadEasyGrid = () => {
         faces[i].style.width = "100%";
         faces[i].style.height = "100%";
 
-        // hide worried and dead face
+        // hide worried, dead and sunglasses face
         faces[1].style.display = "none";
         faces[2].style.display = "none";
         faces[3].style.display = "none";
     }
     
-
+    
     // container for squares
     mainGrid.style.width = "100%";
     mainGrid.style.height = "100%";
@@ -158,9 +158,10 @@ const loadMediumGrid = () => {
         faces[i].style.width = "100%";
         faces[i].style.height = "100%";
 
-        // hide worried and dead face
+        // hide worried, dead and sunglasses face
         faces[1].style.display = "none";
         faces[2].style.display = "none";
+        faces[3].style.display = "none";
     }
     
 
@@ -228,9 +229,10 @@ const loadHardGrid = () => {
         faces[i].style.width = "100%";
         faces[i].style.height = "100%";
 
-        // hide worried and dead face
+        // hide worried, dead and sunglasses face
         faces[1].style.display = "none";
         faces[2].style.display = "none";
+        faces[3].style.display = "none";
     }
     
 
