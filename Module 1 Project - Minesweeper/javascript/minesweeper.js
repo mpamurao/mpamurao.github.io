@@ -1,12 +1,13 @@
 // declare global vars
+const mainContainer = document.getElementById("main-container");
+const gameHeading = document.getElementById("game-heading");
+const flagContainer = document.getElementById("flag-container");
+const refreshIcon = document.getElementById("refresh-icon");
+const faces = document.getElementsByClassName("faces");
+const timerContainer = document.getElementById("timer-container");
+
 const mainGrid = document.getElementById("main-grid");
 
-const gameHeading = document.getElementById("game-heading");
-const smile = document.getElementById("refresh-icon");
-const smileyFaces = document.getElementsByClassName(".faces");
-const mainContainer = document.getElementById("main-container");
-const flagContainer = document.getElementById("flag-container");
-const timerContainer = document.getElementById("timer-container");
 
 // .getElementsByClassName = obtain HTML Collection for live data that will 
 // take into account changes in HTML,
@@ -18,9 +19,10 @@ const gridSquare = document.getElementsByClassName(".square");
 let squares;
 let flagCounter;
 
-const gridBombs = document.getElementsByClassName("bomb-button");
+const gridBombs = document.getElementsByClassName("bomb-square");
 const gridFlags = document.getElementsByClassName("flag-square");
 const gridNumbers = document.getElementsByClassName("numbers");
+const gridBlanks = document.getElementsByClassName("blank");
 
 // grid sizes for easy, medium, hard
 const levels = {
@@ -46,28 +48,88 @@ let gameCounter = 0;
 let timer;
 let gameStart;
 
+
 // load default easyMode grid
-var loadEasyGrid = () => {
+const loadEasyGrid = () => {
 
     gameLevel = easy;
     flagCounter = levels.easy.bombs;
 
-    // reset grid to initial state
+    // reset game grid to initial state
     resetGrid();
-
-    // manipulate shape of game container
-    mainContainer.style.width = "30%";
-    mainContainer.style.height = "60%";
-    flagContainer.style.padding = "1.5%";
-    timerContainer.style.padding = "1.5%";
-    
-
-    mainGrid.style.height = "100%";
-    mainGrid.style.width = "100%";
-    gameHeading.style.height = "14%";
 
     // create array grid and link to HTML
     createGrid(easy);
+
+    // manipulate shape of game container
+    
+    // outer container for grid+game heading
+    mainContainer.style.width = "25%";
+    mainContainer.style.height = "50%";
+
+
+    // container for flag-container+smile+timer
+    gameHeading.style.width = "100%";
+    gameHeading.style.height = "15%";
+    gameHeading.style.padding = "2% 4% 1% 4%";
+
+    flagContainer.style.padding = "1.5%";
+    flagContainer.style.fontSize = "2vw";
+    
+    timerContainer.style.padding = "1.5%";
+    timerContainer.style.fontSize = "2vw";
+
+    refreshIcon.style.width = "50%";
+    refreshIcon.style.height = "100%";
+
+    // smileyface images
+    console.log(faces);
+    for (i = 0; i < faces.length; i++){
+        console.log(faces[i])
+        faces[i].style.fontSize= "1.8vw";
+        faces[i].style.width = "100%";
+        faces[i].style.height = "100%";
+
+        // hide worried and dead face
+        faces[1].style.display = "none";
+        faces[2].style.display = "none";
+
+    }
+    
+
+    // container for squares
+    mainGrid.style.width = "100%";
+    mainGrid.style.height = "100%";
+    mainGrid.style.padding = "3%";
+    
+    // individual squares
+    // for (i = 0; i < gridSquare.length; i++){
+    //     gridSquare[i].style.width = "100%";
+    //     gridSquare[i].style.height = "100%";
+    // }
+    
+    // containers for bombs, flags, and numbers
+    for (i = 0; i < gridBombs.length; i++){
+        gridBombs[i].style.width = "90%";
+        gridBombs[i].style.height = "90%";
+    }
+
+    for (i = 0; i < gridFlags.length; i++){
+        gridFlags[i].style.width = "100%";
+        gridFlags[i].style.height = "100%";
+    }
+
+    for (i = 0; i < gridNumbers.length; i++){
+        gridNumbers[i].style.fontSize = "1.5vw";
+        gridNumbers[i].style.padding = "10%";
+    }
+
+
+
+
+
+
+
 
     // make numbers, bombs, and flags display:none
     hideSquares();
@@ -76,7 +138,7 @@ var loadEasyGrid = () => {
     squareEvents();
 
     // click on smile icon to reload grid;
-    smile.addEventListener("click", () => {
+    refreshIcon.addEventListener("click", () => {
         if (gameLevel === easy){
             loadEasyGrid();
         }
@@ -93,14 +155,21 @@ var loadEasyGrid = () => {
 
 
 // reset mainGrid so it has no cells
-var resetGrid = () => {
+const resetGrid = () => {
 
     // reset flag count, smile and timer
     flagContainer.innerHTML = flagCounter;
-    smile.innerHTML = '<button class="faces">&#128516</button>';
     timerContainer.innerHTML = "000";
 
-    // reset gameOver to empty
+    // hide worried and dead face
+    console.log(faces)
+    for (i = 0; i < faces.length; i++){
+        faces[0].style.display = "block";
+        faces[1].style.display = "none";
+        faces[2].style.display = "none";
+    }
+
+    // reset game statuses
     gameOver = "";
     gameCounter = 0;
     gameStart = false;
@@ -117,6 +186,12 @@ var resetGrid = () => {
 }
 
 const createGrid = (difficulty) => {
+
+    // set smileys - happy, worried, dead
+    refreshIcon.innerHTML = '<button class="faces">&#128516</button>'+
+                                '<button class="faces">&#128534</button>' +
+                                '<button class="faces">&#128128</button>'
+                                
 
     let bombs = levels[difficulty].bombs;
 
@@ -154,7 +229,7 @@ const createGrid = (difficulty) => {
             // if it's a bomb, add .square div and image of bomb
             if (gridDisplay[rowIndex][columnIndex].bomb){
                 mainGrid.innerHTML += `<div class="square active" id=${rowIndex}-${columnIndex}>` + 
-                                            `<div class="bomb-button">`+
+                                            `<div class="bomb-square">`+
                                                 `<img src="./images/bomb.png" alt="bomb" class="bombs"></div>` +
                                             `<div class="flag-square">` +
                                                 `<img src="./images/flag.png" alt="flag" class="flags"></div>` +
@@ -195,13 +270,17 @@ const hideSquares = () => {
 
      // hide flags
      for (counter = 0; counter < gridFlags.length; counter++){
-        gridFlags[counter].style.display = "none";
-        
+        gridFlags[counter].style.display = "none"; 
     }
+
     // hide numbers
     for (counter = 0; counter < gridNumbers.length; counter++){
         gridNumbers[counter].style.display = "none";
-        
+    }
+
+    // hide blanks
+    for (counter = 0; counter < gridBlanks.length; counter++){
+        gridBlanks[counter].style.display = "none";
     }
 }
 
@@ -239,7 +318,11 @@ const worried = (square) => {
             return;
         }
         
-        smile.innerHTML = '<button class="faces">&#128534</button>';
+        for (i = 0; i < faces.length; i++){
+            faces[0].style.display = "none";
+            faces[1].style.display = "block";
+            faces[2].style.display = "none";
+        };
     }
 
     return smileWorried;
@@ -254,7 +337,11 @@ const smiling = (square) => {
             return;
         }
                 
-        smile.innerHTML = '<button class="faces">&#128516</button>';
+        for (i = 0; i < faces.length; i++){
+            faces[0].style.display = "block";
+            faces[1].style.display = "none";
+            faces[2].style.display = "none";
+        }
     }
 
     return smileSmile;
@@ -263,7 +350,7 @@ const smiling = (square) => {
 
 
 // places bombs in grid
-var setBombs = (bombs, difficulty) => {
+const setBombs = (bombs, difficulty) => {
 
     // set number of bombs in bombCount
     let bombCount = bombs;
@@ -296,7 +383,7 @@ var setBombs = (bombs, difficulty) => {
 
 
 // place numbers in grid
-var setNumbers = (difficulty) => {
+const setNumbers = (difficulty) => {
   
     const rowLength = levels[difficulty].x;
     const columnLength = levels[difficulty].y;
@@ -369,6 +456,7 @@ var setNumbers = (difficulty) => {
 
 // listener to right click squares and show flag
 const rightClickFlag = (square) => {
+
     const showFlag = (e) => {
 
         // dont show context menu pop up
@@ -382,11 +470,12 @@ const rightClickFlag = (square) => {
         if (!(flagNode.className.includes("showing"))){
 
             // if no flags available or if square is already visible, don't show more flags
-            if (flagCounter === 0 || childNode.style.display === "block"){
+            if (flagCounter === 0 || childNode.style.display === "flex" || childNode.style.display === "block"){
                 return;
             }
 
-            flagNode.style.display = "block";
+
+            flagNode.style.display = "flex";
             flagNode.classList.add("showing");
             flagCounter--;
             flagContainer.innerHTML = flagCounter;
@@ -412,7 +501,7 @@ const rightClickFlag = (square) => {
 
 // generateClickFunctions takes in a square
 // when square is clicked, the function listener inside generateClickFunctions will be called 
-var generateClickFunctions = (square) => () => {
+const generateClickFunctions = (square) => () => {
 
     // if game over has a value, exit function. don't make things clickable
     if (gameOver === "winner" || gameOver === "loser"){
@@ -422,9 +511,9 @@ var generateClickFunctions = (square) => () => {
     childNode = square.childNodes[0];
 
     // if the element tag inside square is a bomb, call clickBomb()
-    if (childNode.className.includes("bomb-button")){
+    if (childNode.className.includes("bomb-square")){
 
-        // pass in argument of <class=bomb-button> tag
+        // pass in argument of <class=bomb-square> tag
         clickBomb(childNode);
     }
     
@@ -441,9 +530,14 @@ var generateClickFunctions = (square) => () => {
 
 
 // if bomb, game over. change square color to red. expose the entire board.
-var clickBomb = (redBomb) => {
+const clickBomb = (redBomb) => {
 
-    // redBomb = square.childNode[index]
+    // redBomb is square.childNode[index]
+
+    // if flag is already visible, don't click to view bomb
+    if (redBomb.parentNode.childNodes[1].style.display === "flex"){
+        return;
+    }
     
     // make all squares visible
     squares.forEach((square) => {
@@ -451,9 +545,10 @@ var clickBomb = (redBomb) => {
         // without having to loop through list of nodes
         childNode0 = square.childNodes[0];
         childNode1 = square.childNodes[1];
+
         // make bombs, blanks, and numbers visible. change background to dark gray
-        childNode0.style.display = "block";
-        childNode0.style.backgroundColor = "rgb(160, 160, 160)";
+        childNode0.style.display = "flex";
+        childNode0.parentNode.style.backgroundColor = "rgb(160, 160, 160)";
 
         // hide flags
         childNode1.style.display = "none";
@@ -466,7 +561,7 @@ var clickBomb = (redBomb) => {
     });
     
     // make the clicked bomb red
-    redBomb.style.backgroundColor = "red";
+    redBomb.parentNode.style.backgroundColor = "red";
 
     // state game over
     gameOver = "loser";
@@ -475,7 +570,12 @@ var clickBomb = (redBomb) => {
 
 
 // display squares as they're focused
-clickVisible = (number, difficulty) => {
+const clickVisible = (number, difficulty) => {
+
+    // if flag is already visible, don't click to view bomb
+    if (number.parentNode.childNodes[1].style.display === "flex"){
+        return;
+    }
 
     // console.log(number);
     // make the current square visible and remove formatting
@@ -483,6 +583,7 @@ clickVisible = (number, difficulty) => {
     number.style.backgroundColor = "rgb(160, 160, 160)";
     number.parentNode.style.boxShadow = "none";
     number.parentNode.classList.remove("active");
+
 
     // get grid coordinates
     const squareId = number.parentNode.id.split("-");
@@ -513,7 +614,7 @@ clickVisible = (number, difficulty) => {
 
 
 // if it's blank, expose square by calling clickVisible. expose blanks and numbers. don't reveal bombs
-var clickBlank = (blank, difficulty) => {
+const clickBlank = (blank, difficulty) => {
 
     // declare an array to store all the squares children and need to 
     // check their neighbors until neighbor is bomb or number
@@ -534,7 +635,7 @@ var clickBlank = (blank, difficulty) => {
         let columnIndex = parseInt(squareId[1]);
 
         // if square is bomb, continue to next item in array. don't format
-        if (focusedChild.className === "bomb-button"){
+        if (focusedChild.className === "bomb-square"){
             continue;
         }
         
@@ -586,7 +687,7 @@ var clickBlank = (blank, difficulty) => {
 
 
 // timer functions
-var startTimer = () => {
+const startTimer = () => {
     
     // if timer is false, don't run
     // get the initial time
@@ -598,7 +699,7 @@ var startTimer = () => {
 }
 
 
-var updateTime = () => {
+const updateTime = () => {
 
     currentTime = Date.now();
 
@@ -628,13 +729,13 @@ var updateTime = () => {
 
 
 // once game is over, set the board to final display
-var gameStatus = (input) => {
+const gameStatus = (input) => {
 
     squares = document.querySelectorAll(".square");
 
     // change hidden bombs to visible flag images
     if (input === "winner"){
-        smile.innerHTML = '<button class="faces">&#128526</button>';
+        refreshIcon.innerHTML = '<button class="faces">&#128526</button>';
 
         squares.forEach((square) => {
             
@@ -642,7 +743,7 @@ var gameStatus = (input) => {
             childNode1 = square.childNodes[1];
             console.log(childNode0, childNode1)
 
-            if (childNode0.className === "bomb-button"){
+            if (childNode0.className === "bomb-square"){
                 childNode1.style.display = "block";
                 childNode0.style.display = "none";
             }
@@ -656,7 +757,12 @@ var gameStatus = (input) => {
     }
 
     if (input === "loser"){
-        smile.innerHTML = '<button class="faces">&#128128</button>';
+        // show dead smiley
+        for (i = 0; i < faces.length; i++){
+            faces[0].style.display = "none";
+            faces[1].style.display = "none";
+            faces[2].style.display = "block";
+        }
     }
 
     // turn off timer, stop repeating it

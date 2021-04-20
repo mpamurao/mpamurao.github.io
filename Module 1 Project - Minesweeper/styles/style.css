@@ -88,21 +88,16 @@ p#minesweeper{
     justify-content: center;
 }
 #main-container{
-    border:2px solid red;
+    /* border:2px solid red; */
     box-shadow:1px 2px 8px 2px black;
     background-color: rgb(196, 191, 191);
-    width:50%;
-    height:50%;
     display:flex;
     flex-flow: column nowrap;
     display: relative;
 }
 
 #game-heading{
-    border:1px solid blue;
-    width:100%;
-    height:5%;
-    padding:2% 4% 1% 4%;
+    /* border:1px solid blue; */
     display:flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -119,13 +114,9 @@ p#minesweeper{
     background-color: rgb(56, 55, 55);
     color:rgb(221, 217, 217);
     text-align: center;
-    padding:1.5%;
-    font-size: 2vw;
 }
 
 #refresh-icon{
-    width:40%;
-    height:100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -133,14 +124,8 @@ p#minesweeper{
 }
 
 .faces{
-    padding:0;
-    margin:1%;
-    width:100%;
-    height: 100%;
+    background-color: rgba(160, 156, 156, 0);
     border:none;
-    background: none;
-    outline: none;
-    font-size: 2vw;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -153,17 +138,7 @@ p#minesweeper{
 
 #main-grid{
     /* border:2px solid green; */
-    width:100%;
-    height:100%;
-    padding: 3%;
     display:grid;
-}
-
-button{
-    /* border:1px solid black; */
-    background-color: rgba(160, 156, 156, 0);
-    margin:0;
-    padding:0;
 }
 
 .active:active{
@@ -179,13 +154,11 @@ button{
     position: relative;
     border-radius:3%;
     box-shadow:inset 1px 2px 3px 1px rgb(221, 217, 217), inset 0px 0px 2px 1px black;
-    background-color: rgba(160, 156, 156, 0);
     margin:0;
     padding:0;
-
 }
 
-.bomb-button{
+.bomb-square{
     /* border:1px solid blue; */
     width:100%;
     height:100%;
@@ -194,11 +167,10 @@ button{
     display:flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .bombs, .flags {
-    /* border:1px solid black; */
+    /* border:1px solid purple; */
     width:100%;
     height:100%;
     position: relative;
@@ -206,12 +178,12 @@ button{
 
 .numbers{
     /* border:1px solid blue; */
-    display:block;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size:1.5vw;
-    padding:10%;
     font-family:monospace;
     font-weight: bold;
     /* make text not selectable with cursor */
@@ -244,6 +216,7 @@ button{
 }
 
 .blank{
+    /* border:1px solid red; */
     width:100%;
     height:100%;
 }
