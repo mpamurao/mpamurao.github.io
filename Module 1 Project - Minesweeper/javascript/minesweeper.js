@@ -62,7 +62,6 @@ const loadEasyGrid = () => {
     createGrid(easy);
 
     // manipulate shape of game container
-    
     // outer container for grid+game heading
     mainContainer.style.width = "25%";
     mainContainer.style.height = "50%";
@@ -83,9 +82,7 @@ const loadEasyGrid = () => {
     refreshIcon.style.height = "100%";
 
     // smileyface images
-    console.log(faces);
     for (i = 0; i < faces.length; i++){
-        console.log(faces[i])
         faces[i].style.fontSize= "1.8vw";
         faces[i].style.width = "100%";
         faces[i].style.height = "100%";
@@ -93,7 +90,6 @@ const loadEasyGrid = () => {
         // hide worried and dead face
         faces[1].style.display = "none";
         faces[2].style.display = "none";
-
     }
     
 
@@ -102,34 +98,11 @@ const loadEasyGrid = () => {
     mainGrid.style.height = "100%";
     mainGrid.style.padding = "3%";
     
-    // individual squares
-    // for (i = 0; i < gridSquare.length; i++){
-    //     gridSquare[i].style.width = "100%";
-    //     gridSquare[i].style.height = "100%";
-    // }
-    
-    // containers for bombs, flags, and numbers
-    for (i = 0; i < gridBombs.length; i++){
-        gridBombs[i].style.width = "90%";
-        gridBombs[i].style.height = "90%";
-    }
-
-    for (i = 0; i < gridFlags.length; i++){
-        gridFlags[i].style.width = "100%";
-        gridFlags[i].style.height = "100%";
-    }
-
+    // container for numbers
     for (i = 0; i < gridNumbers.length; i++){
-        gridNumbers[i].style.fontSize = "1.5vw";
+        gridNumbers[i].style.fontSize = "1.4vw";
         gridNumbers[i].style.padding = "10%";
     }
-
-
-
-
-
-
-
 
     // make numbers, bombs, and flags display:none
     hideSquares();
@@ -146,12 +119,144 @@ const loadEasyGrid = () => {
 }
 
 
-
 // mediumMode
+const loadMediumGrid = () => {
+
+    gameLevel = medium;
+    flagCounter = levels.medium.bombs;
+
+    // reset game grid to initial state
+    resetGrid();
+
+    // create array grid and link to HTML
+    createGrid(medium);
+
+    // manipulate shape of game container
+    // outer container for grid+game heading
+    mainContainer.style.width = "50%";
+    mainContainer.style.height = "85%";
+
+
+    // container for flag-container+smile+timer
+    gameHeading.style.width = "100%";
+    gameHeading.style.height = "13%";
+    gameHeading.style.padding = "2% 4% 1% 4%";
+
+    flagContainer.style.padding = "2.5%";
+    flagContainer.style.fontSize = "2vw";
+    
+    timerContainer.style.padding = "2.5%";
+    timerContainer.style.fontSize = "2vw";
+
+    refreshIcon.style.width = "30%";
+    refreshIcon.style.height = "100%";
+
+    // smileyface images
+    for (i = 0; i < faces.length; i++){
+        faces[i].style.fontSize= "2.3vw";
+        faces[i].style.width = "100%";
+        faces[i].style.height = "100%";
+
+        // hide worried and dead face
+        faces[1].style.display = "none";
+        faces[2].style.display = "none";
+    }
+    
+
+    // container for squares
+    mainGrid.style.width = "100%";
+    mainGrid.style.height = "100%";
+    mainGrid.style.padding = "2%";
+    
+    // container for numbers
+    for (i = 0; i < gridNumbers.length; i++){
+        gridNumbers[i].style.fontSize = "1.6vw";
+        gridNumbers[i].style.padding = "10%";
+    }
+
+    // make numbers, bombs, and flags display:none
+    hideSquares();
+
+    // add eventListeners to squares
+    squareEvents();
+
+    // click on smile icon to reload grid;
+    refreshIcon.addEventListener("click", () => {
+        if (gameLevel === medium){
+            loadMediumGrid();
+        }
+    });
+}
 
 
 // hardMode
+const loadHardGrid = () => {
 
+    gameLevel = hard;
+    flagCounter = levels.hard.bombs;
+
+    // reset game grid to initial state
+    resetGrid();
+
+    // create array grid and link to HTML
+    createGrid(hard);
+
+    // manipulate shape of game container
+    // outer container for grid+game heading
+    mainContainer.style.width = "80%";
+    mainContainer.style.height = "95%";
+
+
+    // container for flag-container+smile+timer
+    gameHeading.style.width = "80%";
+    gameHeading.style.height = "14%";
+    gameHeading.style.padding = "2% 4% 1% 4%";
+
+    flagContainer.style.padding = "2.5%";
+    flagContainer.style.fontSize = "2vw";
+    
+    timerContainer.style.padding = "2.5%";
+    timerContainer.style.fontSize = "2vw";
+
+    refreshIcon.style.width = "20%";
+    refreshIcon.style.height = "90%";
+
+    // smileyface images
+    for (i = 0; i < faces.length; i++){
+        faces[i].style.fontSize= "2.5vw";
+        faces[i].style.width = "100%";
+        faces[i].style.height = "100%";
+
+        // hide worried and dead face
+        faces[1].style.display = "none";
+        faces[2].style.display = "none";
+    }
+    
+
+    // container for squares
+    mainGrid.style.width = "100%";
+    mainGrid.style.height = "100%";
+    mainGrid.style.padding = "2%";
+    
+    // container for numbers
+    for (i = 0; i < gridNumbers.length; i++){
+        gridNumbers[i].style.fontSize = "1.4vw";
+        gridNumbers[i].style.padding = "10%";
+    }
+
+    // make numbers, bombs, and flags display:none
+    hideSquares();
+
+    // add eventListeners to squares
+    squareEvents();
+
+    // click on smile icon to reload grid;
+    refreshIcon.addEventListener("click", () => {
+        if (gameLevel === hard){
+            loadHardGrid();
+        }
+    });
+}
 
 
 // reset mainGrid so it has no cells
@@ -162,7 +267,6 @@ const resetGrid = () => {
     timerContainer.innerHTML = "000";
 
     // hide worried and dead face
-    console.log(faces)
     for (i = 0; i < faces.length; i++){
         faces[0].style.display = "block";
         faces[1].style.display = "none";
@@ -184,6 +288,7 @@ const resetGrid = () => {
         square.parentNode.removeChild(square);
     });
 }
+
 
 const createGrid = (difficulty) => {
 
@@ -215,8 +320,8 @@ const createGrid = (difficulty) => {
     }
 
     // place bombs and numbers into grid
-    setBombs(bombs, easy);
-    setNumbers(easy);
+    setBombs(bombs, difficulty);
+    setNumbers(difficulty);
 
     // assign grid style of # x # board
     mainGrid.style.gridTemplate =
@@ -464,7 +569,7 @@ const rightClickFlag = (square) => {
 
         let flagNode = square.childNodes[1];
         let childNode = square.childNodes[0];
-        console.log(childNode)
+        // console.log(childNode)
 
         // show flag and add class .showing
         if (!(flagNode.className.includes("showing"))){
