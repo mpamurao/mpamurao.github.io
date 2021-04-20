@@ -29,16 +29,17 @@ contextmenu - right click on a square to show/hide a flag on the square
 
 click events - click on a square, and depending on if it's a bomb/blank/number, then it will do a function. following click functions are:
 
-clickBomb - if bomb is clicked, game is over and board is exposed. click on the smiley face or a difficulty button to start a new game
+1. clickBomb - if bomb is clicked, game is over and board is exposed. click on the smiley face or a difficulty button to start a new game
 
-clickVisible - make the square visible. this will happen immediately if it's a number. for a blank, it will be called inside the clickBlank function
+2. clickVisible - make the square visible. this will happen immediately if it's a number. for a blank, it will be called inside the clickBlank function
 
-clickBlank - stores squares inside an array. the array starts with the focused square, which is shifted out of the array and made visible. for this index, the neighboring squares will be looked at and added to the array if it meets conditions. this is in a while loop, so the next element will become the focused index, and its neighbors will be added to the array. once the array no longer has squares, the loop ends.
+3. clickBlank - stores squares inside an array. the array starts with the focused square, which is shifted out of the array and made visible. for this index, the neighboring squares will be looked at and added to the array if it meets conditions. this is in a while loop, so the next element will become the focused index, and its neighbors will be added to the array. once the array no longer has squares, the loop ends.
 
 timer starts on the first click. once the game is over, clearInterval is called. once a bomb is clicked (loser) or the board is cleared minus the bombs (winner), the game is over. the final display of the board is setup using the function gameStatus().
 
 
 Unsolved problems:
+
 for the larger grids (Medium and Hard), it takes longer to load the game and could freeze the browser temporarily. this is probably due to inefficiencies in the code. 
 
 the more times the game is reset using the smiley icon, the longer it takes to load.
