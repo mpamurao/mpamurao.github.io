@@ -90,6 +90,7 @@ const loadEasyGrid = () => {
         // hide worried and dead face
         faces[1].style.display = "none";
         faces[2].style.display = "none";
+        faces[3].style.display = "none";
     }
     
 
@@ -108,7 +109,7 @@ const loadEasyGrid = () => {
     hideSquares();
 
     // add eventListeners to squares
-    squareEvents();
+    squareEvents(easy);
 
     // click on smile icon to reload grid;
     refreshIcon.addEventListener("click", () => {
@@ -178,7 +179,7 @@ const loadMediumGrid = () => {
     hideSquares();
 
     // add eventListeners to squares
-    squareEvents();
+    squareEvents(medium);
 
     // click on smile icon to reload grid;
     refreshIcon.addEventListener("click", () => {
@@ -248,7 +249,7 @@ const loadHardGrid = () => {
     hideSquares();
 
     // add eventListeners to squares
-    squareEvents();
+    squareEvents(hard);
 
     // click on smile icon to reload grid;
     refreshIcon.addEventListener("click", () => {
@@ -271,6 +272,7 @@ const resetGrid = () => {
         faces[0].style.display = "block";
         faces[1].style.display = "none";
         faces[2].style.display = "none";
+        faces[3].style.display = "none";
     }
 
     // reset game statuses
@@ -292,12 +294,12 @@ const resetGrid = () => {
 
 const createGrid = (difficulty) => {
 
-    // set smileys - happy, worried, dead
+    // set smileys - happy, worried, dead, sunglasses
     refreshIcon.innerHTML = '<button class="faces">&#128516</button>'+
                                 '<button class="faces">&#128534</button>' +
-                                '<button class="faces">&#128128</button>'
+                                '<button class="faces">&#128128</button>' +
+                                '<button class="faces">&#128526</button>'
                                 
-
     let bombs = levels[difficulty].bombs;
 
     // insert gridColumn into gridDisplay so it's  [[column], [column], ...]
@@ -389,7 +391,8 @@ const hideSquares = () => {
     }
 }
 
-const squareEvents = () => {
+
+const squareEvents = (difficulty) => {
 
     // define squares to get updated NodeList after 
     // grid is created and attached to HTML
@@ -407,12 +410,13 @@ const squareEvents = () => {
         // and also calls the function generateClickFunctions()
         // generateClickFunctions() acts as a container for all the function listeners 
         // one of the listeners will activate when "click" if it meets conditions
-        square.addEventListener("click", generateClickFunctions(square));
+        square.addEventListener("click", generateClickFunctions(square, difficulty ));
         
         square.addEventListener("contextmenu", rightClickFlag(square));
 
     });
 }
+
 
 // when clicking on smiling icon listener functions
 const worried = (square) => {
@@ -427,6 +431,7 @@ const worried = (square) => {
             faces[0].style.display = "none";
             faces[1].style.display = "block";
             faces[2].style.display = "none";
+            faces[3].style.display = "none";
         };
     }
 
@@ -446,12 +451,12 @@ const smiling = (square) => {
             faces[0].style.display = "block";
             faces[1].style.display = "none";
             faces[2].style.display = "none";
+            faces[3].style.display = "none";
         }
     }
 
     return smileSmile;
 }
-
 
 
 // places bombs in grid
@@ -557,8 +562,6 @@ const setNumbers = (difficulty) => {
 }
 
 
-
-
 // listener to right click squares and show flag
 const rightClickFlag = (square) => {
 
@@ -578,7 +581,6 @@ const rightClickFlag = (square) => {
             if (flagCounter === 0 || childNode.style.display === "flex" || childNode.style.display === "block"){
                 return;
             }
-
 
             flagNode.style.display = "flex";
             flagNode.classList.add("showing");
@@ -606,7 +608,7 @@ const rightClickFlag = (square) => {
 
 // generateClickFunctions takes in a square
 // when square is clicked, the function listener inside generateClickFunctions will be called 
-const generateClickFunctions = (square) => () => {
+const generateClickFunctions = (square, difficulty) => () => {
 
     // if game over has a value, exit function. don't make things clickable
     if (gameOver === "winner" || gameOver === "loser"){
@@ -624,12 +626,12 @@ const generateClickFunctions = (square) => () => {
     
     else if (childNode.className.includes("numbers")){
         // console.log(childNode);
-        clickVisible(childNode, easy);
+        clickVisible(childNode, difficulty);
     }
 
     else{
         // console.log(childNode);
-        clickBlank(childNode, easy);
+        clickBlank(childNode, difficulty);
     }
 }
 
@@ -840,7 +842,14 @@ const gameStatus = (input) => {
 
     // change hidden bombs to visible flag images
     if (input === "winner"){
-        refreshIcon.innerHTML = '<button class="faces">&#128526</button>';
+
+        // show sunglasses smiley
+        for (i = 0; i < faces.length; i++){
+            faces[0].style.display = "none";
+            faces[1].style.display = "none";
+            faces[2].style.display = "none";
+            faces[3].style.display = "block";
+        }
 
         squares.forEach((square) => {
             
@@ -867,6 +876,7 @@ const gameStatus = (input) => {
             faces[0].style.display = "none";
             faces[1].style.display = "none";
             faces[2].style.display = "block";
+            faces[3].style.display = "none";
         }
     }
 
