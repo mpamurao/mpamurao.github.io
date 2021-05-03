@@ -1,8 +1,6 @@
 # mpamurao.github.io
 Per Scholas Bootcamp Projects
 
-Github Pages: https://mpamurao.github.io/
-
 Project 1 - Minesweeper
 Created HTML, CSS, and Javascript files to build the Minesweeper game.
 Github Pages: https://mpamurao.github.io/Project1_Minesweeper/
