@@ -5,6 +5,7 @@ Github Pages: https://mpamurao.github.io/
 
 Project 1 - Minesweeper
 Created HTML, CSS, and Javascript files to build the Minesweeper game.
+Github Pages: https://mpamurao.github.io/Project1_Minesweeper/
 
 How to Play:
 Click on a square to display its value of a number, bomb, or blank. If it's a bomb, the game is over and the player lost. If it's a number, the number indicates how many bombs border it. If it's a blank, the board will reveal all the bordering blanks until a number is revealed. 
