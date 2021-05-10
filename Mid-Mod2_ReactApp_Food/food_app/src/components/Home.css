@@ -1,0 +1,35 @@
+.homePage{
+    /* border:1px solid blue; */
+    margin-top:10rem;
+    display:flex;
+    flex-flow:column nowrap;
+    text-align: center;
+    align-items:center;
+}
+.homeTitle{
+    /* border:1px solid orange; */
+    width:100%;
+    font-size:3rem;
+}
+
+#homeSearchForm{
+    /* border:1px solid black; */
+    width:100%;
+    display:flex;
+    flex-flow:column nowrap;
+    padding:1rem;
+}
+
+#homeSearchBar{
+    /* border:1px solid purple; */
+    padding:0.3rem 0rem 0.3rem 0.5rem;
+    width:40%;
+    text-align:center;
+    font-size:1.2rem;
+}
+#homeSearchButtons{
+    /* border:1px solid pink; */
+    display:flex;
+    justify-content: center;
+    padding:0.3rem 0rem 0.3rem 0.5rem;
+}
