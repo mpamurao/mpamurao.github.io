@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import config from '../config';
 
 class Recipe extends Component {
     constructor() {
@@ -10,6 +11,7 @@ class Recipe extends Component {
     }
     
     componentDidMount = async () => {
+        const apiKey = config.spoonacular;
         // object destructuring
         // const {recipe} is same as this.props.match.params.recipe
 
@@ -19,9 +21,13 @@ class Recipe extends Component {
         const {recipe} = this.props.match.params;
         
         try{
-            const response = await fetch(`www.themealdb.com/api/json/v1/1/search.php?s=${recipe}`);
+            // LIMITED API CALLS PER DAY
+            // const response = await fetch(`https://api.spoonacular.com/food/ingredients/search?apiKey=${apiKey}&query=banana`);
+            // const data = await response.json();
+            // console.log(response)
+            // console.log(data)
+      
 
-            console.log(response)
 
             this.setState({meals:response.strMeal});
             // console.log(data[0].strMeal);

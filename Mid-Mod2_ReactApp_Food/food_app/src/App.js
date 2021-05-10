@@ -5,7 +5,7 @@ import Home from './components/Home';
 import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 
-// https://www.themealdb.com/api.php
+// https://spoonacular.com/food-api/docs
 
 function App() {
   return (
