@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import config from '../config';
+import data from './dummydata';
 
 class Recipe extends Component {
     constructor() {
@@ -7,11 +8,13 @@ class Recipe extends Component {
 
         this.state={
             meals:"",
+            data,
         }
     }
     
     componentDidMount = async () => {
-        const apiKey = config.spoonacular;
+        const apiKey = config.edamam.key;
+        const apiID = config.edamam.ID;
         // object destructuring
         // const {recipe} is same as this.props.match.params.recipe
 
@@ -21,12 +24,12 @@ class Recipe extends Component {
         const {recipe} = this.props.match.params;
         
         try{
-            // LIMITED API CALLS PER DAY
-            // const response = await fetch(`https://api.spoonacular.com/food/ingredients/search?apiKey=${apiKey}&query=banana`);
+            // LIMITED 10,000 calls per month
+            // const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
             // const data = await response.json();
             // console.log(response)
-            // console.log(data)
-            console.log(recipe)
+            console.log(data)
+
       
 
 
@@ -45,6 +48,7 @@ class Recipe extends Component {
         return (
             <div className="recipeContainer">
                 HELLO! {recipe}
+
             </div>
         );
     }
