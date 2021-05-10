@@ -26,10 +26,11 @@ class Recipe extends Component {
             // const data = await response.json();
             // console.log(response)
             // console.log(data)
+            console.log(recipe)
       
 
 
-            this.setState({meals:response.strMeal});
+            // this.setState({meals:response.strMeal});
             // console.log(data[0].strMeal);
         }
         catch(err){
