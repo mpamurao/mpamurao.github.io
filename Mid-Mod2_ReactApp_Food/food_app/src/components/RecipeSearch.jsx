@@ -3,6 +3,7 @@ import config from '../config';
 import data from './dummydata';
 import Recipe from './Recipe';
 import Grid from '@material-ui/core/Grid';
+import {Button, Box} from '@material-ui/core';
 
 import SearchBar from './SearchBar';
 
@@ -63,7 +64,7 @@ class RecipeSearch extends Component {
             <div className="searchResultsContainer">
             <SearchBar />
 
-            <Grid container className="searchResultsGrid" spacing={5}>
+            <Box m={3}><Grid container className="searchResultsGrid" spacing={5}>
                 
                 {this.state.meals.map((meal, index) => {
                     if (!meal.dishType || !meal.mealType ){
@@ -72,7 +73,7 @@ class RecipeSearch extends Component {
                     
                     return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
                 })} 
-            </Grid>
+            </Grid></Box>
 
             </div>
 

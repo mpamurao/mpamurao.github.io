@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Button, Box} from '@material-ui/core';
 
 class SearchBar extends Component {
     constructor() {
@@ -24,10 +23,16 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div className="searchBarContainer">
+            <div>
+                <div className="pageName">
+                    Find A Meal
+                </div>
+                <div className="searchBarContainer">
+                
                 <label htmlFor="searchBar">
                     <input id="searchBar" type="text" placeholder="Search recipe..."  value={this.state.userInput} onChange={this.handleChange} onKeyPress={this.keyPress}/>
                 </label>
+            </div>
             </div>
         );
     }

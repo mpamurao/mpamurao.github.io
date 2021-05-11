@@ -1,3 +1,17 @@
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing:border-box;
+}
+
+::before, ::after{
+  box-sizing:inherit;
+}
+
+body{
+  background-color: rgba(252, 250, 250, 0.911);
+}
+
 .App {
   /* border:2px solid black; */
   padding:1rem;
@@ -6,20 +20,48 @@
 }
 
 .navBar{
-  border:1px solid blue;
-  width:30%;
+  /* border:1px solid blue; */
+  width:45%;
   display:flex;
   justify-content: flex-end;
   align-self:flex-end;
 }
 
 .navItem{
-  margin:1rem;
+  margin:1.2rem;
+  font-size:1.1rem;
 }
-/* 
-.searchBar{
-  border:1px solid black;
-  display:fixed;
+
+.pageName{
+  /* border:1px solid blue; */
+  position:absolute;
+  width:12%;
+  top:1.2rem;
+  left:1.5rem;
+  color:rgba(218, 6, 6, 0.911);
+  text-shadow:2px 1px 2px black;
+  font-size:2rem;
+  font-weight:bold;
+  text-align:center;
+  margin-right:1rem;
+  width:200px;
+}
+
+.searchBarContainer{
+  /* background-color:black; */
+  position:absolute;
   width:50%;
-  margin:0;
-} */
+  top:1.2rem;
+  left:14rem;
+ 
+  padding:0.5rem;
+  display:flex;
+  flex-flow:row nowrap;
+}
+
+#searchBar{
+  /* border:1px solid purple; */
+  padding:0.3rem 0rem 0.3rem 0.5rem;
+  width:150%;
+  font-size:1rem;
+}
