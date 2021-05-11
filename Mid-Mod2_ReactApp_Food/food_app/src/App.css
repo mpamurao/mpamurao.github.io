@@ -38,6 +38,7 @@ body{
   z-index: 1;
 }
 
+
 .searchBarContainer{
   /* border:1px solid blue; */
   position:sticky;
@@ -72,4 +73,48 @@ body{
  font-size:1.1rem;
  width:10%;
  text-align:right;
+}
+
+.noResults{
+  border:1px solid blue;
+  text-align: center;
+  margin:5rem;
+}
+
+@media (max-width:1050px) {
+  .navBar{
+    /* border:1px solid green; */
+    width:100%;
+    margin-top:3rem;
+    justify-content:flex-start;
+  }
+}
+@media (max-width:860px){
+  .pageName{
+    /* border:1px solid blue; */
+    color:rgba(218, 6, 6, 0.911);
+    text-shadow:2px 1px 2px black;
+    width:30%;
+    font-size:2.5rem;
+    margin-top:1rem;
+  }
+  #searchBar{
+    /* border:1px solid purple; */
+    padding:0.3rem 0rem 0.3rem 0.5rem;
+    width:55%;
+    font-size:1rem;
+  }
+  .navBar{
+    /* border:1px solid green; */
+    width:100%;
+    margin-top:3.5rem;
+    justify-content:center;
+  }
+  .navItem{
+    /* border:1px solid blue; */
+    font-size:1.1rem;
+    width:20%;
+    text-align:right;
+   }
+   
 }

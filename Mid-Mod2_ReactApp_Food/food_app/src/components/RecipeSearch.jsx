@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import config from '../config';
-// import data from './dummydata';
+import data from './dummydata';
 import Recipe from './Recipe';
 import Grid from '@material-ui/core/Grid';
 import {Box} from '@material-ui/core';
@@ -13,6 +13,7 @@ class RecipeSearch extends Component {
         this.state={
             meals:[],
             data: "",
+            resultExists:true,
         }
     }
     
@@ -32,8 +33,12 @@ class RecipeSearch extends Component {
         try{
             // LIMITED 10,000 calls per month
             // const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
-            const data = await response.json();
-            console.log(data)
+            // const data = await response.json();
+            console.log(data.count)
+            if (data.count === 0){
+                this.setState({resultExists:false});
+                return
+            }
             
             const meals = data.hits.map((index) => {
                 return index.recipe;
@@ -51,17 +56,22 @@ class RecipeSearch extends Component {
         return (
             <div className="searchResultsContainer">
                 <Header />
-                <Box m={3}>
-                    <Grid container className="searchResultsGrid" spacing={4} justify="center">
-                        {this.state.meals.map((meal, index) => {
-                            if (!meal.dishType || !meal.mealType ){
-                                return;
-                            }
-                            console.log('RecipeSearch', meal);
-                            return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
-                        })} 
-                    </Grid>
-                </Box>
+
+                {/* if query doesn't give results, state no results found. else show Grid components */}
+                {!this.state.resultExists 
+                    ? <h3 className="noResults">No results found</h3>
+                    : (<Box m={3}>
+                            <Grid container className="searchResultsGrid" spacing={4} justify="center">
+                                {this.state.meals.map((meal, index) => {
+                                    if (!meal.dishType || !meal.mealType ){
+                                        return;
+                                    }
+                                    console.log('RecipeSearch', meal);
+                                    return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
+                                })} 
+                            </Grid>
+                        </Box>)
+                }
             </div>
         );
     }

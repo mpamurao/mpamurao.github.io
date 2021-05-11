@@ -78,4 +78,3 @@ const recipeTypes = [
 ]
 
 export default recipeTypes;
-
