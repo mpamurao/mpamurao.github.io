@@ -11,7 +11,7 @@ import RecipeSearch from './components/RecipeSearch';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename="/">
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/recipes" component={RecipesList} />
