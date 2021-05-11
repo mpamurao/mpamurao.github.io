@@ -25,6 +25,10 @@ class Home extends Component {
     }
 
     submitForm = () => {
+        if (!this.state.userInput){
+            return;
+        }
+        
         // change URL link by pushing to history
         this.props.history.push(`/search/${this.state.userInput}`);
         // this.setState({userInput:""});
@@ -34,7 +38,7 @@ class Home extends Component {
         const index = Math.floor(Math.random() * recipeTypes.length);
         this.props.history.push(`/search/${recipeTypes[index]}`);
     }
-    
+
     render() {
         return (
             <div className="homePage">

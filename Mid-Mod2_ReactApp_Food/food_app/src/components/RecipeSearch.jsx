@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import config from '../config';
-import data from './dummydata';
 import Recipe from './Recipe';
 import Grid from '@material-ui/core/Grid';
 import {Box} from '@material-ui/core';
 import Header from './Header';
+import data from './dummydata';
 
 class RecipeSearch extends Component {
     constructor() {
@@ -34,7 +34,7 @@ class RecipeSearch extends Component {
             // LIMITED 10,000 calls per month
             // const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
             // const data = await response.json();
-            console.log(data.count)
+
             if (data.count === 0){
                 this.setState({resultExists:false});
                 return
@@ -52,7 +52,7 @@ class RecipeSearch extends Component {
     }
 
     render() {
-        {console.log(this.state.meals)};
+        // {console.log(this.state.meals)};
         return (
             <div className="searchResultsContainer">
                 <Header />
@@ -64,10 +64,9 @@ class RecipeSearch extends Component {
                             <Grid container className="searchResultsGrid" spacing={4} justify="center">
                                 {this.state.meals.map((meal, index) => {
                                     if (!meal.dishType || !meal.mealType ){
-                                        return;
+                                        return <div></div>;
                                     }
-                                    console.log('RecipeSearch', meal);
-                                    return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
+                                    return <Grid item key={`${meal.label}-${index}`} ><Recipe meal={meal} key={`${meal.label}-${index}`} /></Grid>
                                 })} 
                             </Grid>
                         </Box>)

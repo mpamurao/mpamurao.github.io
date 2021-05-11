@@ -23,6 +23,10 @@ class SearchBar extends Component {
     }
 
     submitForm = () => {
+        if (!this.state.userInput){
+            return;
+        }
+        
         // change URL link by pushing to history
         this.props.history.push(`/search/${this.state.userInput}`);
     
