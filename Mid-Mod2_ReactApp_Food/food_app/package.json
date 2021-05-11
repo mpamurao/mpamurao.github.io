@@ -1,5 +1,5 @@
 {
-  "homepage": ".",
+  "homepage": "./public",
   "name": "food_app",
   "version": "0.1.0",
   "private": true,
