@@ -8,7 +8,7 @@
 
 <h4>Food application: Dish It Out</h4>
 
-This food app is called Dish It Out. Dish It Out allows users to search for a food ingredient, meal name, or cuisine type and receive corresponding results in a list. Each recipe can be clicked on and led to an external site that contains detailed info on how to make the dish. If you're ever interested in finding a new recipe with an easy to use layout, or just want to scroll through a lot of food pics, this is a site that you'll like! <br>
+This food app is called Dish It Out. Dish It Out allows users to search for a food ingredient, meal name, or cuisine type and receive corresponding results in a list. Each recipe can be clicked on and led to an external site that contains detailed info on how to make the dish. As a user interested in finding a new recipe with an easy to use layout, or who just wants to scroll through a lot of food pics, this is a nice simple site! <br>
 
 <h4>Background Approach</h4>
 
