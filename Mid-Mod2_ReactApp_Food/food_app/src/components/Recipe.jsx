@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { spacing } from '@material-ui/system';
-import Grid from '@material-ui/core/Grid';
-
-
-
-
 
 class Recipe extends Component {
-
     render() {
         const {meal} = this.props;
-       
+        console.log("Recipe.jsx ", meal)
         return(
-       
             //  materialUI Card component
             <Card className="RecipeContainer" elevation={5} m={3}>
                 {/* make card clickable */}

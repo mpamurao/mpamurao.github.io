@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 
 class SearchBar extends Component {
     constructor() {
@@ -21,6 +22,14 @@ class SearchBar extends Component {
         }
     }
 
+    submitForm = () => {
+        // change URL link by pushing to history
+        this.props.history.push(`/search/${this.state.userInput}`);
+    
+        // refresh the page after url has been changed to get API query
+        window.location.reload();
+    }
+
     render() {
         return (
             <div>
@@ -34,4 +43,5 @@ class SearchBar extends Component {
     }
 }
 
-export default SearchBar;
+// connect SearchBar component to router in order to get access to history
+export default withRouter(SearchBar);

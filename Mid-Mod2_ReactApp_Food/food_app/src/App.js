@@ -6,7 +6,7 @@ import RecipeSearch from './components/RecipeSearch';
 
 
 
-// https://spoonacular.com/food-api/docs
+// https://developer.edamam.com/edamam-docs-recipe-api
 
 function App() {
   return (
@@ -18,10 +18,8 @@ function App() {
           {/* :recipe shows that the value for recipe is dynamic */}
           <Route path="/search/:recipe" component={RecipeSearch} />
           <Route path="*" render={() => {return <div>404 ERROR NOT FOUND</div>}} />
-
         </Switch>
       </Router>
-      
     </div>
   );
 }

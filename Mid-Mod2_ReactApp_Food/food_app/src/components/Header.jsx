@@ -2,11 +2,11 @@ import React from 'react';
 import NavBar from './NavBar';
 import SearchBar from './SearchBar';
 
-function Header(props) {
+function Header() {
     return (
         <div className="headerContainer">
             <div className="pageName">
-                Find A Meal
+                Dish It Out
             </div>
             <SearchBar />
             <NavBar />
