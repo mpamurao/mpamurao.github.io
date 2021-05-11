@@ -26,9 +26,9 @@ Header.jsx contains the page name, SearchBar and NavBar components. These compon
 
 <h4>Problems and Potential Improvements</h4>
 
-The app works as intended with no known bugs. While the API contains a lot of info about dishes such as nutrients, I focused on providing basic details. Currently, there is a set number of results that are populated, whereas the total count in the database can be much larger. I'd like to be able to add a "next" button to show the next list of items. I'd also like to use more Material-UI to better enhance the web design.
+The app works as intended with no known bugs when running via the virtual DOM. While the API contains a lot of info about dishes such as nutrients, I focused on providing basic details. Currently, there is a set number of results that are populated, whereas the total count in the database can be much larger. I'd like to be able to add a "next" button to show the next list of items. I'd also like to use more Material-UI to better enhance the web design.
 
-I need a better understanding of how to deploy a React App to Github Pages. Had to change branches to gh-pages to view project on GH Pages. Since I'm using BrowserRouter and call a reload in the SearchBar, I receive a 404 error. 
+I need a better understanding of how to deploy a React App to Github Pages. I had to change the gh-pages branch to view the project on GH Pages. Since I'm using BrowserRouter and call a reload in the SearchBar, I receive a 404 error. I could restructure my code so my search state is in the main components instead of SearchBar, but I would need to think about how to not make the same search code repetitive.
 
 
 
