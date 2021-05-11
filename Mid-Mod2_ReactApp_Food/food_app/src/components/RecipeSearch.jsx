@@ -4,7 +4,7 @@ import Recipe from './Recipe';
 import Grid from '@material-ui/core/Grid';
 import {Box} from '@material-ui/core';
 import Header from './Header';
-import data from './dummydata';
+// import data from './dummydata';
 
 class RecipeSearch extends Component {
     constructor() {
