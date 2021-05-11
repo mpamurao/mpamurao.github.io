@@ -4,7 +4,7 @@
 <h4>Mid-Mod Project 2 - Food Recipe App</h4>
 
 <b>Technologies:</b> Javascript, React, HTML, CSS & Material-UI, Edamam API <br>
-<b>Github Pages:</b> https://mpamurao.github.io/Mid-Mod2_ReactApp_Food/ <br>
+<b>Github Pages:</b> https://mpamurao.github.io/ <br>
 
 <h4>Food application: Dish It Out</h4>
 
@@ -28,7 +28,7 @@ Header.jsx contains the page name, SearchBar and NavBar components. These compon
 
 The app works as intended with no known bugs when running via the virtual DOM. While the API contains a lot of info about dishes such as nutrients, I focused on providing basic details. Currently, there is a set number of results that are populated, whereas the total count in the database can be much larger. I'd like to be able to add a "next" button to show the next list of items. I'd also like to use more Material-UI to better enhance the web design.
 
-I need a better understanding of how to deploy a React App to Github Pages. I had to change the gh-pages branch to view the project on GH Pages. Since I'm using BrowserRouter and call a reload in the SearchBar, I receive a 404 error. I could restructure my code so my search state is in the main components instead of SearchBar, but I would need to think about how to not make the same search code repetitive.
+I need a better understanding of how to deploy a React App to Github Pages. The GH Page URL is currently the main domain name for this project instead of githubpages.io/Mid-Mod2 and I'm unsure how to fix it. I also had to change the gh-pages branch to view the project on GH Pages. Since I'm using BrowserRouter and call a reload in the SearchBar, I receive a 404 error. I could restructure my code so my search state is in the main components instead of SearchBar, but I would need to think about how to not make the same search code repetitive.
 
 
 
