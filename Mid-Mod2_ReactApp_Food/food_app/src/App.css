@@ -76,7 +76,7 @@ body{
 }
 
 .noResults{
-  border:1px solid blue;
+  /* border:1px solid blue; */
   text-align: center;
   margin:5rem;
 }

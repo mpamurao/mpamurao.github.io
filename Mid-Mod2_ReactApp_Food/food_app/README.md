@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# mpamurao.github.io
+<h2>Per Scholas Bootcamp Projects</h2>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h4>Mid-Mod Project 2 - Food Recipe App</h4>
 
-## Available Scripts
+<b>Technologies:</b> Javascript, React, HTML, CSS & Material-UI, Edamam API <br>
+<b>Github Pages:</b> https://mpamurao.github.io/Mid-Mod2_ReactApp_Food/ <br>
 
-In the project directory, you can run:
+<h4>Food application: Dish It Out</h4>
 
-### `npm start`
+This food app is called Dish It Out. Dish It Out allows users to search for a food ingredient, meal name, or cuisine type and receive corresponding results in a list. Each recipe can be clicked on and led to an external site that contains detailed info on how to make the dish. If you're ever interested in finding a new recipe with an easy to use layout, or just want to scroll through a lot of food pics, this is a site that you'll like! <br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<h4>Background Approach</h4>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+I wanted to reinforce my knowledge of querying an API. Since there were several food APIs available, and I love food myself, I decided to follow the food theme. I styled my site similarly to the Google Homepage and Pinterest lists as these formats look clean and easy to engage. <br>
 
-### `npm test`
+As the API has a limit of 10,000 calls/month, I copied over an initial data set into dummydata.js for testing purposes. The code can also do live queries instead of using the dummydata.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+App.js contains a BrowserRouter and routes for a Homepage, a list of "recommended" Recipes, and Searched Recipes. The user starts at the Homepage which contains a Nav Bar that re-directs back to the Homepage and also to the recommended Recipes. The user can generate a list of dishes by either inputting a specified word or clickling the "Indecisive and Hungry" button to randomly generate a search. The Indecisive button references the recipeTypes.js file which contains an array of keywords the API uses to determine results.
 
-### `npm run build`
+RecipeSearch.jsx takes the input and sends a query to the Edamam API. After, the results are mapped out and Recipe.jsx populates the DOM with Grid items stylized using Material-UI. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+RecipesList.jsx is similar to RecipeSearch where it sends queries to the API. This is a pre-defined list that retrieves results for Lunch, Dinner, Snack, and Teatime meals.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Header.jsx contains the page name, SearchBar and NavBar components. These components are sticky positioned to the top of the browser.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h4>Problems and Potential Improvements</h4>
 
-### `npm run eject`
+The app works as intended with no known bugs. While the API contains a lot of info about dishes such as nutrients, I focused on providing basic details. Currently, there is a set number of results that are populated, whereas the total count in the database can be much larger. I'd like to be able to add a "next" button to show the next list of items. I'd also like to use more Material-UI to better enhance the web design.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+I need a better understanding of how to deploy a React App to Github Pages.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+<b>Wireframe:</b>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![food_app](https://user-images.githubusercontent.com/59937690/117773192-0518ee80-b206-11eb-8124-4b8127bd1d57.png)

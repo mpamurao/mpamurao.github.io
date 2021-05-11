@@ -28,10 +28,9 @@ class Home extends Component {
         if (!this.state.userInput){
             return;
         }
-        
+
         // change URL link by pushing to history
         this.props.history.push(`/search/${this.state.userInput}`);
-        // this.setState({userInput:""});
     }
 
     randomRecipes = () => {
