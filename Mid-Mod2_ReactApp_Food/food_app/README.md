@@ -28,6 +28,8 @@ Header.jsx contains the page name, SearchBar and NavBar components. These compon
 
 The app works as intended with no known bugs. While the API contains a lot of info about dishes such as nutrients, I focused on providing basic details. Currently, there is a set number of results that are populated, whereas the total count in the database can be much larger. I'd like to be able to add a "next" button to show the next list of items. I'd also like to use more Material-UI to better enhance the web design.
 
+I need a better understanding of how to deploy a React App to Github Pages.
+
 
 
 
