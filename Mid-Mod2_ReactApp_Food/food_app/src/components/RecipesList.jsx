@@ -43,8 +43,8 @@ class Recipes extends Component {
         console.log("fetchRecipe", recipe)
         try{
             // LIMITED 10,000 calls per month
-            // const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
-            // const data = await response.json();
+            const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
+            const data = await response.json();
             console.log(data.count)
             if (data.count === 0){
                 this.setState({resultExists:false});

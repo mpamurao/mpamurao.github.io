@@ -32,8 +32,8 @@ class RecipeSearch extends Component {
         console.log(recipe)
         try{
             // LIMITED 10,000 calls per month
-            // const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
-            // const data = await response.json();
+            const response = await fetch(`https://api.edamam.com/search?q=${recipe}&app_id=${apiID}&app_key=${apiKey}`);
+            const data = await response.json();
 
             if (data.count === 0){
                 this.setState({resultExists:false});
