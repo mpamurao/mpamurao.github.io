@@ -6,12 +6,20 @@
 }
 
 .navBar{
-  /* border:1px solid blue; */
-  width:97%;
+  border:1px solid blue;
+  width:30%;
   display:flex;
   justify-content: flex-end;
+  align-self:flex-end;
 }
 
 .navItem{
   margin:1rem;
 }
+/* 
+.searchBar{
+  border:1px solid black;
+  display:fixed;
+  width:50%;
+  margin:0;
+} */

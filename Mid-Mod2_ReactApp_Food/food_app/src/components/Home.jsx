@@ -11,14 +11,8 @@ class Home extends Component {
         }
     }
 
-    // enter user input into state which will show in textbox
     handleChange = (event) => {
         this.setState({userInput: event.target.value});
-    }
-
-    submitForm = () => {
-        // change URL link by pushing to history
-        this.props.history.push(`/recipes/${this.state.userInput}`);
     }
 
     keyPress = (event) => {
@@ -27,7 +21,13 @@ class Home extends Component {
             this.submitForm();
         }
     }
-    render() {
+
+    submitForm = () => {
+        // change URL link by pushing to history
+        this.props.history.push(`/search/${this.state.userInput}`);
+        // this.setState({userInput:""});
+    }
+      render() {
         return (
             <div className="homePage">
                 <div className="homeTitle">
@@ -41,7 +41,10 @@ class Home extends Component {
 
                     <div id="homeSearchButtons">
                         <Box m={1}>
-                            <Button type="submit" variant="contained" title="Submit" style={{fontSize: '0.8em', fontWeight:"bold"}} onClick={this.submitForm}>Submit Recipe</Button>
+                            <Button type="submit" variant="contained" title="Submit" style={{fontSize: '0.8em', fontWeight:"bold"}} 
+                            onClick={this.submitForm}>
+                                Submit Recipe
+                            </Button>
                         </Box>
                         <Box m={1}>
                             <Button type="text" title="Randomly generate a meal" variant="contained" style={{fontSize: '0.8em', fontWeight:"bold"}}>Indecisive and Hungry</Button>
