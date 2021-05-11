@@ -3,9 +3,8 @@ import config from '../config';
 import data from './dummydata';
 import Recipe from './Recipe';
 import Grid from '@material-ui/core/Grid';
-import {Button, Box} from '@material-ui/core';
-
-import SearchBar from './SearchBar';
+import {Box} from '@material-ui/core';
+import Header from './Header';
 
 
 
@@ -58,28 +57,23 @@ class RecipeSearch extends Component {
 
 
     render() {
-        
         {console.log(this.state.meals)};
         return (
             <div className="searchResultsContainer">
-            <SearchBar />
-
-            <Box m={3}><Grid container className="searchResultsGrid" spacing={5}>
-                
-                {this.state.meals.map((meal, index) => {
-                    if (!meal.dishType || !meal.mealType ){
-                        return;
-                    }
-                    
-                    return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
-                })} 
-            </Grid></Box>
-
+                <Header />
+                <Box m={3}>
+                    <Grid container className="searchResultsGrid" spacing={4} justify="center">
+                        {this.state.meals.map((meal, index) => {
+                            if (!meal.dishType || !meal.mealType ){
+                                return;
+                            }
+                            return <Grid item key={`${meal.label}-${index}`}><Recipe meal={meal} /></Grid>
+                        })} 
+                    </Grid>
+                </Box>
             </div>
-
         );
     }
-
 }
 
 export default RecipeSearch;

@@ -46,10 +46,6 @@ class Recipe extends Component {
                     
 
                 </CardActionArea>
-                                    
-                {/* <a href={meal.url} target="_blank">{meal.label}</a>
-               
-                <a href={meal.url} target="_blank"><img src={meal.image} alt={meal.label} /></a> */}
             </Card>
 
           

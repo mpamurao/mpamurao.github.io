@@ -1,9 +1,9 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import NavBar from './components/NavBar';
 import Home from './components/Home';
 import RecipesList from './components/RecipesList';
 import RecipeSearch from './components/RecipeSearch';
+
 
 
 // https://spoonacular.com/food-api/docs
@@ -12,7 +12,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/recipes" component={RecipesList} />

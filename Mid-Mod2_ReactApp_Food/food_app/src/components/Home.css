@@ -1,15 +1,21 @@
 .homePage{
     /* border:1px solid blue; */
-    margin-top:10rem;
     display:flex;
     flex-flow:column nowrap;
     text-align: center;
     align-items:center;
+    margin-right:1rem;
+    /* padding-right:1rem; */
+    position:relative;
 }
 .homeTitle{
     /* border:1px solid orange; */
     width:100%;
     font-size:3rem;
+    font-weight:bold;
+    color:rgba(218, 6, 6, 0.911);
+    text-shadow:2px 1px 2px black;
+    margin-top:8rem;
 }
 
 #homeSearchForm{
@@ -17,7 +23,7 @@
     width:100%;
     display:flex;
     flex-flow:column nowrap;
-    padding:1rem;
+    padding:0.5rem;
 }
 
 #homeSearchBar{
@@ -31,5 +37,4 @@
     /* border:1px solid pink; */
     display:flex;
     justify-content: center;
-    padding:0.3rem 0rem 0.3rem 0.5rem;
 }

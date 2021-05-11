@@ -17,22 +17,18 @@ class SearchBar extends Component {
     keyPress = (event) => {
         // on enter in textbox, call submitForm to change URL
         if (event.key === "Enter"){
-            this.props.submitForm();
+            this.submitForm();
         }
     }
 
     render() {
         return (
             <div>
-                <div className="pageName">
-                    Find A Meal
-                </div>
                 <div className="searchBarContainer">
-                
-                <label htmlFor="searchBar">
-                    <input id="searchBar" type="text" placeholder="Search recipe..."  value={this.state.userInput} onChange={this.handleChange} onKeyPress={this.keyPress}/>
-                </label>
-            </div>
+                    <label htmlFor="searchBar">
+                        <input id="searchBar" type="text" placeholder="Search recipe..."  value={this.state.userInput} onChange={this.handleChange} onKeyPress={this.keyPress}/>
+                    </label>
+                </div>
             </div>
         );
     }
