@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 class Recipe extends Component {
     render() {
         const {meal} = this.props;
-        console.log("Recipe.jsx ", meal)
+        // console.log("Recipe.jsx ", meal)
         return(
             //  materialUI Card component
             <Card className="RecipeContainer" elevation={5} m={3}>
@@ -20,27 +20,19 @@ class Recipe extends Component {
                             {meal.label}
                         </Typography>
                         
-
-                        
                         <Typography gutterBottom variant="subtitle2" component="h2">
-                        <div className="cuisineType">
-                            {meal.cuisineType[0].toUpperCase()}
-                        </div>
-                        <div className="mealType">
-                            {meal.dishType[0].toUpperCase()}, {meal.mealType[0].toUpperCase()}
-                        </div>
-
+                            <div className="cuisineType">
+                                {meal.cuisineType[0].toUpperCase()}
+                            </div>
+                            <div className="mealType">
+                                {meal.dishType[0].toUpperCase()}, {meal.mealType[0].toUpperCase()}
+                            </div>
                         </Typography>
                     </CardContent>
                     {/* image */}
                     <CardMedia component="img" alt={meal.label} title={meal.label} src={meal.image} height="250"/>
-                    
-
                 </CardActionArea>
             </Card>
-
-          
-
         )
     }
 }

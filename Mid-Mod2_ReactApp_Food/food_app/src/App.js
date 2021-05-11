@@ -4,8 +4,6 @@ import Home from './components/Home';
 import RecipesList from './components/RecipesList';
 import RecipeSearch from './components/RecipeSearch';
 
-
-
 // https://developer.edamam.com/edamam-docs-recipe-api
 
 function App() {

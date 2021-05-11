@@ -10,7 +10,7 @@ class RecipeSearch extends Component {
     constructor() {
         super()
 
-        this.state={
+        this.state = {
             meals:[],
             data: "",
             resultExists:true,

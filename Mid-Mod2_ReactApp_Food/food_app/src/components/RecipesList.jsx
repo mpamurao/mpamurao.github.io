@@ -65,8 +65,7 @@ class Recipes extends Component {
     render() {
         return (
             <div className="recipesListContainer">
-                {console.log(this.state.Lunch)}
-
+                {/* {console.log(this.state.Lunch)} */}
                 <Header />
 
                 {!this.state.resultExists 
