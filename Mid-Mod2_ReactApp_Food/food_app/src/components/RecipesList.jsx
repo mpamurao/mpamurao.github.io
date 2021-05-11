@@ -20,7 +20,7 @@ class Recipes extends Component {
         }
     }
 
-    componentDidMount = async() => {
+    componentDidMount = async () => {
         // list all of the recipes for lunch, dinner, snack
         
         for (let index = 0; index < 4; index++){
