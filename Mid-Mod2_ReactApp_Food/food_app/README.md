@@ -4,7 +4,7 @@
 <h4>Mid-Mod Project 2 - Food Recipe App</h4>
 
 <b>Technologies:</b> Javascript, React, HTML, CSS & Material-UI, Edamam API <br>
-<b>Github Pages:</b> https://mpamurao.github.io/ <br>
+<b>Github Pages:</b> https://mpamurao.github.io/mid-mod-2_React_Food_App/ <br>
 
 <h4>Food application: Dish It Out</h4>
 
