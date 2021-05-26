@@ -1,7 +1,7 @@
 # mpamurao.github.io
 <h2>Per Scholas Bootcamp Projects</h2>
 
-<h4>Mid-Mod Project 2 - Food Recipe App</h4>
+<h4>Mid-Mod Project 2 - Meal Search App</h4>
 
 <b>Technologies:</b> Javascript, React, HTML, CSS & Material-UI, Edamam API <br>
 <b>Github Pages:</b> https://mpamurao.github.io/mid-mod-2_React_Food_App/ <br>
