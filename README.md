@@ -22,7 +22,7 @@ The more times the game is reset using the smiley icon, the longer it takes to l
 
 _________________________________________________
 
-<h3>Mid-Mod Project 2 - Food Recipe App</h3>
+<h3>Mid-Mod Project 2 - Meal Search App</h3>
 
 <b>Technologies:</b> Javascript, React, HTML, CSS & Material-UI, Edamam API <br>
 <b>Github Pages:</b> https://mpamurao.github.io/mid-mod-2_React_Food_App/ <br>
