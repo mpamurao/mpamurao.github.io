@@ -16,6 +16,6 @@ Once the board reveals all the blanks and numbers, the game is over and the play
 
 Unsolved problems:
 
-for the larger grids (Medium and Hard), it takes longer to load the game and could freeze the browser temporarily. this is probably due to inefficiencies in the code. 
+For the larger grids (Medium and Hard), it takes longer to load the game and could freeze the browser temporarily. This is probably due to inefficiencies in the code. 
 
-the more times the game is reset using the smiley icon, the longer it takes to load.
+The more times the game is reset using the smiley icon, the longer it takes to load.
